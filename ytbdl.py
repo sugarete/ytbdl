@@ -14,7 +14,6 @@ def index():
     return render_template('index.html')
 
 @app.route('/download', methods=['POST'])
-
 def download(): 
     if request.method == 'POST':
         url = request.form['url']

@@ -1,19 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
 *{
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
+
+li, a, button, input {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: none;
+    color: black;
+}
+
+header {
+    background-color: rgb(241, 182, 233);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px 10%;
+}
+
+.logo {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    margin-left: .5rem;
+    margin-right: auto  ;
+}
+
+.nav__links {
+    list-style: none;
+}
+
+.nav__links li {
+    display: inline-block;
+    padding: 0px 20px;
+}   
+
+.nav__links li a {
+    transition: all 0.3s ease 0s;
+}
+
+.nav__links li a:hover {
+    color: rgb(255, 255, 255);
+}
+
+.SignButton {
+    padding: 9px 25px;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    margin-left: 30px;
+}   
+
+.SignButton:hover {
+    color: rgb(241, 182, 233);
+}
+
+body {
+    height: 100vh; /* 100% of viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
 .container{
-    width: 100%;
-    height: 100vh;
+    flex: 1;
     background-image: url(../images/background.png);
     background-position: center;
     background-size: cover;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center;    
     justify-content: center;
 }
-.search-bar{
+
+.search-bar {
     width: 100%;
     max-width: 500px;
     background: transparent;
@@ -23,6 +89,7 @@
     border-radius: 60px;
     padding: 10px 20px;
 }
+
 .search-bar input {
     background: transparent;
     flex: 1;
@@ -32,6 +99,7 @@
     font-size: 20px;
     color: black;
 }
+
 .search-bar button {
     border: 0;
     border-radius: 50%;
@@ -39,10 +107,12 @@
     height: 60px;
     cursor: pointer;    
 }
+
 .search-bar button img {
     width: 100%;
     height: auto;
 }
+
 .title {
     font-size: 40px;
     color: rgb(0, 0, 0);
