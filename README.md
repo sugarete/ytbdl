@@ -13,7 +13,7 @@ Plan:
 - [ ] Edit video (Cut, Merge, Add Sound, Add Subtitle) // Maybe
 -----
 Update 3/11/2023: 
-The current repo have 3 main part: 
+The current repo have 3 main part:  
     + youtube_dl: The module to download video from Youtube  
     + ytbdl.py: The server to handle request from client and return video  
     + app folder: Contain user interface  
