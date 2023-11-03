@@ -6,12 +6,12 @@ Requirements: C/C++/.NET/Py
 - [ ] Examine HTML to get HTML video's link (OpenSource)
 - [ ] Download FLV file - Extract Sound
 - [ ] Networking Interface and Download 
-####################################################################################
+-----
 Plan: 
 - [ ] Add user system to charge for downloading (Pay one time for unlimited download)
 - [ ] Store download history
 - [ ] Edit video (Cut, Merge, Add Sound, Add Subtitle) // Maybe
-####################################################################################
+-----
 Update 3/11/2023: 
 The current repo have 3 main part: 
     + youtube_dl: The module to download video from Youtube
