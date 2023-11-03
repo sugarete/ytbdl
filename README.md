@@ -13,6 +13,7 @@ Plan:
 - [ ] Edit video (Cut, Merge, Add Sound, Add Subtitle) // Maybe
 -----
 Update 3/11/2023:  
+- Make sure you activate the virtual environment before running the server by running '.venv/Scripts/activate' in the terminal.  
 - run `python ytbdl.py` to start server and open `localhost:80` to use.  
 - The current repo have 3 main part:  
     + youtube_dl: The module to download video from Youtube  
