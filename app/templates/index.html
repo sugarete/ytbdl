@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>YouTube Downloader</title>
-    <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon" sizes="20x20">
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
-</head>
-<body>
-    <header>
-        <img class="logo" src="../static/images/logo.png" alt="logo">
-        <nav>
-            <ul class="nav__links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-        </nav>
-        <a class="cta" href="registry.html"><button type="button" class="SignButton">Sign In/Sign Up</button></a>
-    </header>
+    <head>
+        <title>YouTube Downloader</title>
+        <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon" sizes="20x20">
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+    </head>
     <body>
-        <div class="container">   
-            <h1 class="title">YouTube Downloader</h1>
-            <form id="download" action="../../download" method="post" class="search-bar"> 
-                <input type="text" name="url" placeholder="Search video or Insert URL"/>
-                <button type="submit" value="download" style="background: transparent;"><img src="../static/images/download.png"></button>
-            </form>
-        </div>  
-    </body>
-</body> 
+        <header>
+            <img class="logo" src="../static/images/logo.png" alt="logo">
+            <nav>
+                <ul class="nav__links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+            <a class="cta" href="registry.html"><button type="button" class="SignButton">Sign In / Sign Up</button></a>
+        </header>
+        <body>
+            <div class="container">   
+                <h1 class="title">YouTube Downloader</h1>
+                <form id="download" action="../../dl" method="post" class="search-bar"> 
+                    <input type="text" name="url" placeholder="Search video or Insert URL"/>
+                    <button type="submit" value="download" style="background: transparent;"><img src="../static/images/download.png"></button>
+                </form>
+            </div>  
+        </body>
+    </body> 
 </html>     

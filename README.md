@@ -8,6 +8,8 @@ Requirements: C/C++/.NET/Py
 - [ ] Networking Interface and Download 
 -----
 Plan: 
+- [ ] Create Quality Selection Menu (1080p, 720p, 480p, 360p, 240p, 144p)
+- [ ] Create Extract Sound Menu (Yes/No)
 - [ ] Add user system to charge for downloading (Pay one time for unlimited download)
 - [ ] Store download history
 - [ ] Edit video (Cut, Merge, Add Sound, Add Subtitle) // Maybe

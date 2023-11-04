@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from flask import Flask, request, render_template, send_file
+from flask import Flask, request, render_template, send_file, after_this_request
 import youtube_dl
 import os
 app = Flask(__name__, template_folder='app/templates/', static_folder='app/static/')
@@ -15,7 +15,7 @@ def index():
 
 @app.route('/d', methods=['GET'])
 
-@app.route('/download', methods=['POST'])
+@app.route('/dl', methods=['POST'])
 def download(): 
     if request.method == 'POST':
         url = request.form['url']
@@ -28,7 +28,14 @@ def download():
             ydl.download([url])
             video_info = ydl.extract_info(url, download=False)
             filename = ydl.prepare_filename(video_info)
-    return send_file(filename, as_attachment=True)
+            # @after_this_request
+            # def remove_file(response):
+            #     try:
+            #         os.remove()
+            #     except Exception as error:
+            #         print("Error remnoving or closing downloaded file handle", error)
+            #     return response  
+        return send_file(filename, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80)
