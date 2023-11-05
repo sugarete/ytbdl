@@ -8,15 +8,18 @@ Requirements: C/C++/.NET/Py
 - [ ] Networking Interface and Download 
 -----
 Plan: 
+- [ ] Change the method: client download video direct from Youtube (Using Youtube Data API)
 - [ ] Create Quality Selection Menu (1080p, 720p, 480p, 360p, 240p, 144p)
 - [ ] Create Extract Sound Menu (Yes/No)
+- [ ] Verify user age (18+) to download some video
 - [ ] Add user system to charge for downloading (Pay one time for unlimited download)
 - [ ] Store download history
 - [ ] Edit video (Cut, Merge, Add Sound, Add Subtitle) // Maybe
 -----
 Update 3/11/2023:  
 - Make sure you activate the virtual environment before running the server by running `.venv/Scripts/activate` in the terminal.  
-- run `python ytbdl.py` to start server and open `localhost:80` to use.  
+- Run `pip install -r requirements.txt` to install all the required packages.
+- Run `python ytbdl.py` to start server and open `localhost:80` to use.  
 - The current repo have 3 main part:  
     + youtube_dl: The module to download video from Youtube  
     + ytbdl.py: The server to handle request from client and return video  
