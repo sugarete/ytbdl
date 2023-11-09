@@ -17,6 +17,10 @@ def index():
 def registry():
     return render_template('login.html')
 
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
 @app.route('/dl', methods=['POST'])
 def download(): 
     if request.method == 'POST':
