@@ -71,3 +71,8 @@ __pycache__/
 
 # download videos
 downloaded_videos/
+
+.env
+.venv
+env/
+venv/
