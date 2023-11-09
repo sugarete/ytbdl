@@ -15,7 +15,7 @@ def index():
 
 @app.route('/login')
 def registry():
-    return render_template('registry.html')
+    return render_template('login.html')
 
 @app.route('/dl', methods=['POST'])
 def download(): 
