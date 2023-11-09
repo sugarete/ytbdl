@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=D:\Documents\Code\Project\ytbdl\.venv
+set VIRTUAL_ENV=d:\Code\PBL3\YoutubeDownloaderWeb\.venv
 
 if not defined PROMPT set PROMPT=$P$G
 
