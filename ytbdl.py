@@ -40,4 +40,5 @@ def download():
         return send_file(filename, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=565, debug=True)
+    app.run(host='0.0.0.0',port=80, debug=True)
+    
