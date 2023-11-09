@@ -65,14 +65,15 @@ _TeamCity*
 __pycache__/
 *.pyc
 
+#virtual environment
+.env
+.venv
+env/
+venv/
+
 # Cake - Uncomment if you are using it
 # tools/
 # build/
 
 # download videos
 downloaded_videos/
-
-.env
-.venv
-env/
-venv/
