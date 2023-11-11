@@ -16,7 +16,8 @@ Plan:
 - [ ] Store download history
 - [ ] Edit video (Cut, Merge, Add Sound, Add Subtitle) // Maybe
 -----
-Update 3/11/2023:  
+Guide to run the server:
+- Create virutal environment by running `python -m venv .venv` in the terminal.
 - Make sure you activate the virtual environment before running the server by running `.venv/Scripts/activate` in the terminal.  
 - Run `pip install -r requirements.txt` to install all the required packages.
 - Run `python ytbdl.py` to start server and open `localhost:80` to use.  

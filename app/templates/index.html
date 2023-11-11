@@ -2,12 +2,14 @@
 <html>
     <head>
         <title>YouTube Downloader</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon" sizes="20x20">
         <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
     </head>
     <body>
         <header>
-            <img class="logo" src="../static/images/logo.png" alt="logo">
+            <img class="logo" src="../static/images/logo.png" href="/" alt="logo">
             <nav>
                 <ul class="nav__links">
                     <li><a href="#">Home</a></li>
@@ -20,7 +22,7 @@
             <div class="container">   
                 <h1 class="title">YouTube Downloader</h1>
                 <form id="download" action="../../dl" method="post" class="search-bar"> 
-                    <input type="text" name="url" placeholder="Search video or Insert URL"/>
+                    <input type="text" autocomplete="off" name="url" placeholder="Search video or Insert URL"/>
                     <button type="submit" value="download" style="background: transparent;"><img src="../static/images/download.png"></button>
                 </form>
             </div>  
