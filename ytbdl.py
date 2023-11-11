@@ -36,3 +36,6 @@ if __name__ == '__main__':
 
 def tambiet():
     print("tambiet")
+
+def xinchao():
+    print("Xin chao")
