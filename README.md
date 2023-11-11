@@ -8,7 +8,7 @@ Requirements: C/C++/.NET/Py
 - [ ] Networking Interface and Download 
 -----
 Plan: 
-- [ ] Change the method: client download video direct from Youtube (Using Youtube Data API)
+- [ ] Change the method: client download video direct from Youtube 
 - [ ] Create Quality Selection Menu (1080p, 720p, 480p, 360p, 240p, 144p)
 - [ ] Create Extract Sound Menu (Yes/No)
 - [ ] Verify user age (18+) to download some video
