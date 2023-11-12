@@ -8,5 +8,6 @@ print(my_video.title)
 
 for stream in my_video.streams:
     print(stream)
+    print(stream.resolution)
 
 print(my_video.streams.get_by_itag(134).url)

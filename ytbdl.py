@@ -30,6 +30,16 @@ def download():
         video = video_url.download(download_directory)
         return send_file(video, as_attachment=True)
 
+@app.route('/extract', methods=['POST']) 
+def extract():
+    if request.method == 'POST':
+        url = request.form['url']
+        video = YouTube(url)
+        video_info = {
+            'title': video.title,
+            'length': video.length,
+        }
+        return jsonify(video_info)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80, debug=True)

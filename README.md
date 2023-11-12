@@ -25,5 +25,3 @@ Guide to run the server:
     + youtube_dl: The module to download video from Youtube  
     + ytbdl.py: The server to handle request from client and return video  
     + app folder: Contain user interface  
-
-- GIT HUB TEST
