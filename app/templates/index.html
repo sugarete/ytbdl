@@ -23,9 +23,9 @@
             <div class="container">   
                 <h1 class="title">YouTube Downloader</h1>
                 <form id="download-form" method="POST" class="search-bar"> 
-                    <input type="text" autocomplete="off" name="url" placeholder="Search video or Insert URL"/>
-                    <button onclick="setAction('download')" style="background: transparent;"><img src="../static/images/download.png"></button>
-                    <button onclick="setAction('extract')" style="background: transparent;"><img src="../static/images/extract.png"></button>
+                    <input type="text" autocomplete="off" name="url" id="url" placeholder="Search video or Insert URL"/>
+                    <button onclick="setAction('/dl')" style="background: transparent;"><img src="../static/images/download.png"></button>
+                    <button onclick="setAction('/extract')" style="background: transparent;"><img src="../static/images/extract.png"></button>
                 </form>
             </div>  
         </body>
