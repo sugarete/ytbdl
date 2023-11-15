@@ -80,14 +80,14 @@ body {
     width: 50%;
 }
 
-#extract {
+.extract {
     background-color: black;
     border: none;
     display: inline;
     cursor: pointer;
 }
 
-#extract img {
+.extract img {
     height: 20%;
     width: 20%;
 }
