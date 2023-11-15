@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
-
+/* Index.html */
 *{
     box-sizing: border-box;
     margin: 0;
@@ -119,6 +119,7 @@ body {
     margin-bottom: 40px;
 }
 
+/* Login.html */
 .loginContainer {
     background-color: rgb(241, 182, 233);
     flex: 1;
