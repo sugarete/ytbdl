@@ -11,12 +11,20 @@
     <body>
         <div class = "Main-container">
             <img class="img-title" src="../static/images/title.png" href="/" alt="logo">
-            <form id="download-form" method="POST" class="input"> 
+            <form id="download-form" class="input" method="POST"> 
                 <div class="search_bar">
                     <input type="text" autocomplete="off" name="url" id="url" placeholder="URL goes here"/>
                     <button type="reset" id="reset" onclick="reset()"><img src="../static/images/clear.png"></button>
                 </div>
-                <button class="extract" onclick="setAction('/dl')"><img src="../static/images/extract.png"</button>
+                <button class="extract" onclick="setAction('/extract')"><img src="../static/images/extract.png" alt="extract"></button>
+            </form>
+            <!-- <div class="vid-info"> 
+                <div class="vid-general" id="vid-general-info"></div>  
+                <div class="vid-quality">
+                    <p>Quality: </p>
+                </div>
+            </div>
+            <div style="clear: both;"></div> -->
         </div>
     </body>
 </html> 

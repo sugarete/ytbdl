@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from flask import Flask, request, render_template, send_file, jsonify
+from flask import Flask, request, render_template, send_file, jsonify, redirect, url_for
 from pytube import YouTube
 from io import BytesIO
 import os
@@ -30,16 +30,23 @@ def download():
         video = video_url.download(download_directory)
         return send_file(video, as_attachment=True)
 
-@app.route('/extract', methods=['POST']) 
+# @app.route('/extract', methods=['POST', 'GET']) 
+# def extract():
+#     if request.method == 'POST':
+#         url = request.form['url']
+#         video = YouTube(url)
+#         video_info = {
+#             'title': video.title,
+#             'length': video.length,
+#         }
+#         return jsonify(video_info)
+
+@app.route('/extract', methods=['POST', 'GET'])
 def extract():
     if request.method == 'POST':
         url = request.form['url']
         video = YouTube(url)
-        video_info = {
-            'title': video.title,
-            'length': video.length,
-        }
-        return jsonify(video_info)
+        return redirect(f"{video.streams.get_highest_resolution().url}",)
 
 
 if __name__ == '__main__':

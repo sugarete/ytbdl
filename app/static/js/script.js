@@ -27,6 +27,7 @@ function extractVideoInfo() {
 }
 
 function displayVideoInfo(data) {
+    console.log("displayVideoInfo() called");
     var videoInfoDisplay = document.getElementById('videoInfoDisplay');
     var htmlContent = '<h2>Video Information</h2>';
     htmlContent += '<p>Title: ' + data.title + '</p>';
