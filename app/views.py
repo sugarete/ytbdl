@@ -5,8 +5,7 @@ import os
 
 views = Blueprint('views', __name__)
 
-download_directory = 'downloaded_videos'
-
+# download_directory = 'downloaded_videos'
 # if not os.path.exists(download_directory):
 #     os.makedirs(download_directory)
 
