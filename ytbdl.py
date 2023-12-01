@@ -1,53 +1,9 @@
 from __future__ import unicode_literals
-from flask import Flask, request, render_template, send_file, jsonify, redirect, url_for
-from pytube import YouTube
-from io import BytesIO
-import os
+from flask import Flask
+from views import views
+
 app = Flask(__name__, template_folder='app/templates/', static_folder='app/static/')
-
-download_directory = 'downloaded_videos'
-
-if not os.path.exists(download_directory):
-    os.makedirs(download_directory)
-
-@app.route('/') 
-def index():
-    return render_template('index3.html')
-
-@app.route('/login')
-def registry():
-    return render_template('login.html')
-
-@app.route('/signup')
-def signup():
-    return render_template('signup.html')
-            
-@app.route('/dl', methods=['POST'])
-def download():
-    if request.method == 'POST':
-        url = request.form['url']
-        video_url = YouTube(url).streams.get_by_itag(22)
-        video = video_url.download(download_directory)
-        return send_file(video, as_attachment=True)
-
-# @app.route('/extract', methods=['POST', 'GET']) 
-# def extract():
-#     if request.method == 'POST':
-#         url = request.form['url']
-#         video = YouTube(url)
-#         video_info = {
-#             'title': video.title,
-#             'length': video.length,
-#         }
-#         return jsonify(video_info)
-
-@app.route('/extract', methods=['POST', 'GET'])
-def extract():
-    if request.method == 'POST':
-        url = request.form['url']
-        video = YouTube(url)
-        return redirect(f"{video.streams.get_highest_resolution().url}",)
-
+app.register_blueprint(views, url_prefix='/ytdl')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80, debug=True)

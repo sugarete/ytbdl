@@ -14,7 +14,7 @@ Plan:
 - [ ] Verify user age (18+) to download some video
 - [ ] Add user system to charge for downloading (Pay one time for unlimited download)
 - [ ] Store download history
-- [ ] Edit video (Cut, Merge, Add Sound, Add Subtitle) // Maybe
+<!-- - [ ] Edit video (Cut, Merge, Add Sound, Add Subtitle) // Maybe -->
 -----
 Guide to use Github:  
 
@@ -27,3 +27,4 @@ Guide to run the server:
     + youtube_dl: The module to download video from Youtube  
     + ytbdl.py: The server to handle request from client and return video  
     + app folder: Contain user interface  
+
