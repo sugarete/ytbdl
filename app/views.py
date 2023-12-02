@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request
 from pytube import YouTube
 from flask import Flask, request, render_template, send_file, jsonify, redirect, url_for
 import os
+from datetime import timedelta
 
 views = Blueprint('views', __name__)
 
@@ -39,6 +40,7 @@ def home():
 #             'length': video.length,
 #         }
 #         return jsonify(video_info)
+
 def format_time(seconds):
     return str(timedelta(seconds=seconds))
 
@@ -47,7 +49,12 @@ def extract():
     if request.method == 'POST':
         url = request.form['url']
         video = YouTube(url)
-        return render_template('vidinfo.html', video=video)
+
+        unique_resolutions = list(dict.fromkeys([i.resolution for i in video.streams if i.resolution]))
+        resolution_values = [int(resolution.split("p")[0]) for resolution in unique_resolutions]
+        resolution_values.sort()
+
+        return render_template('vidinfo.html', video=video, resolutions = resolution_values, format_time=format_time)
     
 # @views.route('/extract/<url>')
 # def extract_url(url):
