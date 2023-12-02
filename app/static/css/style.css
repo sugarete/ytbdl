@@ -89,7 +89,7 @@ body {
     width: 20%;
 }
 
-.vid-info {
+.video-info {
     border : solid 2px white;
     border-radius: 10px;
     color: #ffffff;
@@ -97,7 +97,7 @@ body {
     margin-bottom: 500px;
 }
 
-.vid-general {
+.video-general {
     color: white;
     padding: 7px 14px;
     border-right: solid 1px white;
@@ -105,9 +105,14 @@ body {
     float: left;
 }
 
-.vid-quality {
-    padding: 7px 14px;
+.video-detail {
+    padding: 10px 14px;
     border-left: solid 1px white;
     width: 50%;
     float: right;
+}
+.video-general img {
+    width: 100%;
+    height: auto;
+    display: block;
 }

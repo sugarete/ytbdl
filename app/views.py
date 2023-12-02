@@ -39,15 +39,17 @@ def home():
 #             'length': video.length,
 #         }
 #         return jsonify(video_info)
+def format_time(seconds):
+    return str(timedelta(seconds=seconds))
 
 @views.route('/extract', methods=['POST', 'GET'])
 def extract():
     if request.method == 'POST':
         url = request.form['url']
         video = YouTube(url)
-        return redirect(f"{video.streams.get_highest_resolution().url}",)
+        return render_template('vidinfo.html', video=video)
     
-@views.route('/extract/<url>')
-def extract_url(url):
-    video = YouTube(url)
-    return redirect(f"{video.streams.get_highest_resolution().url}",)
+# @views.route('/extract/<url>')
+# def extract_url(url):
+#     video = YouTube(url)
+#     return redirect(f"{video.streams.get_highest_resolution().url}",)

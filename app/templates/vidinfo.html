@@ -1,0 +1,19 @@
+{% extends "index.html" %} {% block videoinfo %}
+<div class="video-info">
+    <div class="video-general">
+        <h2>{{ "Video: " + video.title }}</h2>
+        <h2>{{ "Duration: " + video.length | format_time}}</h2>
+        <img src="{{ video.thumbnail_url }}" alt="thumbnail" />
+    </div>
+    <div class="video-details">
+        <div class="video-download">
+            <a href="{{ video.download_url }}" download>
+                <button class="download-button">
+                    <img src="../static/images/download.png" alt="download" />
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+```
