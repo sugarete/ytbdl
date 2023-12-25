@@ -8,13 +8,13 @@ Requirements: C/C++/.NET/Py
 - [ ] Networking Interface and Download 
 -----
 Plan: 
-- [ ] Change the method: client download video direct from Youtube 
+- [ ] Using Youtube Data API to get video's link and search query
+- [ ] Change the method: download to server and return link to client
 - [ ] Create Quality Selection Menu (1080p, 720p, 480p, 360p, 240p, 144p)
 - [ ] Create Extract Sound Menu (Yes/No)
-- [ ] Verify user age (18+) to download some video
-- [ ] Add user system to charge for downloading (Pay one time for unlimited download)
+- [ ] Create Video format Menu (mp4, flv, avi, mkv, webm)
+- [ ] Create edit video menu (Cut, Merge, Add Sound, Add Subtitle) // Maybe using FFmpeg
 - [ ] Store download history
-<!-- - [ ] Edit video (Cut, Merge, Add Sound, Add Subtitle) // Maybe -->
 -----
 Guide to use Github:  
 
