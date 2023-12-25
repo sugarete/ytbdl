@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center Submit Button</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #333; /* Set your desired background color */
+        }
+
+        .input {
+            text-align: center;
+        }
+
+        .search_bar {
+            margin-bottom: 10px; /* Adjust as needed for spacing */
+        }
+
+        input[type="text"] {
+            width: 70%; /* Adjust the width as needed */
+            padding: 12px 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #extract {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<form id="download-form" method="POST" class="input"> 
+    <div class="search_bar">
+        <input type="text" autocomplete="off" name="url" id="url" placeholder="URL goes here"/>
+        <button type="reset" id="reset" onclick="reset()"><img src="../static/images/clear.png"></button>
+    </div>
+    <button type="submit" id="extract" onclick="submit()">Download</button>
+</form>
+
+</body>
+</html>
