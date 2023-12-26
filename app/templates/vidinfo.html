@@ -7,25 +7,16 @@
     </div>
     <div class="video-details">
         <div class="video-download">
-            <!-- <form action="/download" method="post">
-                <label for="quality">Select Quality:</label>
-                <select name="selected_quality" id="quality">
-                    {% for resolution in resolutions %}
-                        <option value="{{ resolution }}">{{ resolution }}p</option>
-                    {% endfor %}
-                </select>
-                <input type="hidden" name="url" value="{{ video.watch_url }}">
-                <button type="submit" class="download-button">
-                    <img src="../static/images/download.png" alt="download" />
-                </button>
-            </form> -->
-        {% for stream in video.streams.filter(mime_type="video/mp4", progressive=True) %}
-            <div>
-                <a href="{{ url_for('views.download', url=url, quality=stream.itag) }}">
-                    <button>{{ stream.resolution }}</button>
-                </a>               
-            </div>
-        {% endfor %}
+            {% for stream in video.streams.filter(mime_type="video/mp4", progressive=True) %}
+                <div>
+                    <a href="{{ url_for('views.download_video', url=url, quality=stream.itag) }}">
+                        <button>{{ stream.resolution }}</button>
+                    </a>               
+                </div>
+            {% endfor %}
+            <a href="{{ url_for('views.download_audio', url=url) }}">
+                <button>Audio</button>
+            </a>
         </div>
     </div>
 </div>
