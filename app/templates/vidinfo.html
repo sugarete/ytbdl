@@ -19,7 +19,7 @@
                     <img src="../static/images/download.png" alt="download" />
                 </button>
             </form> -->
-        {% for stream in video.streams.filter(mime_type="video/mp4", progressive=True) %}
+        {% for stream in video.streams.filter(mime_type="video/mp4", progressive=False,only_video=True) %}
             <div>
                 <a href="{{ url_for('views.download', url=url, quality=stream.itag) }}">
                     <button>{{ stream.resolution }}</button>
