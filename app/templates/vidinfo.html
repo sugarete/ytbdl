@@ -7,18 +7,44 @@
     </div>
     <div class="video-details">
         <div class="video-download">
-            {% for stream in video.streams.filter(mime_type="video/mp4", progressive=True) %}
+            {% for format in supported_formats %}
                 <div>
-                    <a href="{{ url_for('views.download_video', url=url, quality=stream.itag) }}">
-                        <button>{{ stream.resolution }}</button>
-                    </a>               
+                    <input type="checkbox" name="formats" value="{{ format }}"> {{ format }}
                 </div>
             {% endfor %}
+            <select name="quality">
+                {% for stream in video.streams.filter(mime_type="video/mp4", progressive=True) %}
+                    <option value="{{ stream.itag }}">{{ stream.resolution }}</option>
+                {% endfor %}
+            </select>
+            <button onclick="submitFormats()">Download</button>
             <a href="{{ url_for('views.download_audio', url=url) }}">
                 <button>Audio</button>
             </a>
         </div>
     </div>
 </div>
-{% endblock %}
-```
+
+<script>
+    function submitFormats() {
+        var selectedFormats = document.querySelectorAll('input[name="formats"]:checked');
+        var selectedQuality = document.querySelector('select[name="quality"]').value;
+
+        if (selectedFormats.length > 0) {
+            var formatParams = Array.from(selectedFormats).map(function (checkbox) {
+                return checkbox.value;
+            }).join(',');
+
+            // Replace '__formats__' and '__quality__' with actual placeholders
+            var downloadUrl = "{{ url_for('views.download_video', url=url, formats='__formats__', quality='__quality__') }}";
+            downloadUrl = downloadUrl.replace('__formats__', formatParams).replace('__quality__', selectedQuality);
+            downloadUrl = downloadUrl.replaceAll("&amp;", "&");
+            window.location.href = downloadUrl;
+        } else {
+            alert("Please select at least one format.");
+        }
+    }
+</script>
+
+
+{% endblock %}  
