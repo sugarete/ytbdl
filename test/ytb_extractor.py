@@ -26,6 +26,7 @@ print("Audio streams----------------------")
 for streams in my_video.streams.filter(only_audio=True):
     print(streams, ":", streams.url)
 
+my_video.streams.get_audio_only().download()
 my_video.streams.get_by_itag(251).download()
 
 print("Video streams")
