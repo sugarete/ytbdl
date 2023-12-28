@@ -8,31 +8,39 @@ from datetime import timedelta
 
 views = Blueprint('views', __name__)
 
+supported_formats = ['mp4', 'mov', 'avi', 'flv', 'm4a', 'wav', '3gp']
+
+# define and create directories if not exist
 download_directory = 'downloaded_folder'
 if not os.path.exists(download_directory):
     os.makedirs(download_directory)
 
+# create sub directories for video only
 download_video_directory = 'downloaded_folder/videos'
 if not os.path.exists(download_video_directory):
     os.makedirs(download_video_directory)
 
+# create sub directories for audio only
 download_audio_directory = 'downloaded_folder/audios'
 if not os.path.exists(download_audio_directory):
     os.makedirs(download_audio_directory)
 
+# create sub directories for merged video and audio
 merge_directory = 'downloaded_folder/merged'
 if not os.path.exists(merge_directory):
     os.makedirs(merge_directory)
 
+# create sub directories for send videos
 send_directory = 'send_videos'
 if not os.path.exists(send_directory):
     os.makedirs(send_directory)
+#end of create directories 
 
-supported_formats = ['mp4', 'mov', 'avi', 'flv', 'm4a', 'wav', '3gp']
-
+# time format from seconds to HH:MM:SS
 def format_time(seconds):
     return str(timedelta(seconds=seconds))
 
+# convert audio to mp3
 def convert_to_mp3(audio_path):
     try:
         out_audio_path = os.path.join(os.getcwd(), send_directory, os.path.basename(audio_path)[:-4] + '.mp3')
@@ -42,6 +50,7 @@ def convert_to_mp3(audio_path):
         print("Error: ", e)
         return None
 
+# convert video to selected format
 def convert_format(video_path, video_format):
     try:
         out_video_path = os.path.join(os.getcwd(), send_directory, os.path.basename(video_path)[:-4] + '.' + video_format)
@@ -51,10 +60,12 @@ def convert_format(video_path, video_format):
         print("Error: ", e)
         return None
 
+# main page routes
 @views.route('/')
 def home():
     return render_template("home.html")
 
+# extract video info
 @views.route('/extract', methods=['POST', 'GET'])
 def extract():
     if request.method == 'POST':
@@ -64,7 +75,8 @@ def extract():
             return render_template('vidinfo.html', video=video, url = url, format_time=format_time, supported_formats=supported_formats)
         else:
             return "Invalid URL."
-    
+
+# download video
 @views.route('/download_video', methods=['GET'])
 def download_video():
     print("request.args: ", request.args)
@@ -104,6 +116,7 @@ def download_video():
     else:
         return "Invalid URL"
 
+# download audio only
 @views.route('/download_audio', methods=['GET'])
 def download_audio():
     url = request.args.get('url')
