@@ -37,5 +37,5 @@ Tải video về server và send file về client, mục đích tải về serve
 - [ ] Search Query Processing - Youtube Data API hoặc Pytube
 - [ ] Lưu lịch sử tải về 
 - [ ] Cắt video tại thời điểm được chỉ định (Làm UI cho phần lựa chọn) - Pytube hoặc FFmpeg 
-- [~] Cho phép lựa chọn định dạng video tải về (mp4, flv, avi, mkv, webm)  - FFmpeg
+- [ ] Cho phép lựa chọn định dạng video tải về (mp4, flv, avi, mkv, webm)  - FFmpeg
 

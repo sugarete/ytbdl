@@ -76,7 +76,7 @@ venv/
 # build/
 
 # download videos
-downloaded_videos/
+downloaded_folder/
 
 #sendvideo
 send_videos/

@@ -22,11 +22,14 @@
             </form> -->
         {% for stream in video.streams.filter(mime_type="video/mp4", progressive=False,only_video=True) %}
             <div>
-                <a href="{{ url_for('views.download', url=url, quality=stream.itag) }}">
+                <a href="{{ url_for('views.download_video', url=url, quality=stream.itag) }}">
                     <button>{{ stream.resolution }}</button>
                 </a>               
             </div>
         {% endfor %}
+        <a href="{{ url_for('views.download_audio', url=url) }}">
+            <button>Audio</button>
+        </a>
 <!--             <select name="formats">
                 {% for format in supported_formats %}
                     <option value="{{ format }}">{{ format }}</option>
