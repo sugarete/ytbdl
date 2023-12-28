@@ -1,4 +1,5 @@
-{% extends "index.html" %} {% block content %}
+{% extends "index.html" %} 
+{% block content %}
 <div class="video-info">
     <div class="video-general">
         <h3>{{ video.title }}</h3>
@@ -26,8 +27,44 @@
                 </a>               
             </div>
         {% endfor %}
+<!--             <select name="formats">
+                {% for format in supported_formats %}
+                    <option value="{{ format }}">{{ format }}</option>
+                {% endfor %}
+            </select>
+            {% for stream in video.streams.filter(mime_type="video/mp4", progressive=True) %}
+                <button value="{{ stream.itag }}" onclick="selectQuality(this)">{{ stream.resolution }}</button>
+            {% endfor %}
+            <button onclick="submitFormats()">Download</button>
+            <a href="{{ url_for('views.download_audio', url=url) }}">
+                <button>Audio</button>
+            </a> -->
         </div>
     </div>
 </div>
+
+<script>
+    var selectedQuality = null;
+
+    function selectQuality(button) {
+        selectedQuality = button.value;
+        // Add styling to indicate selected quality if needed
+        // Optionally, you can use CSS classes or other styling techniques
+    }
+
+    function submitFormats() {
+        var selectedFormat = document.querySelector('select[name="formats"]').value;
+
+        if (selectedQuality && selectedFormat) {
+            var downloadUrl = "{{ url_for('views.download_video', url=url, format='__format__', quality='__quality__') }}";
+            downloadUrl = downloadUrl.replace('__format__', selectedFormat).replace('__quality__', selectedQuality);
+            downloadUrl = downloadUrl.replaceAll("&amp;", "&");
+            window.location.href = downloadUrl;
+        } else {
+            alert("Please select a format and quality.");
+        }
+    }
+</script>
+
 {% endblock %}
 ```

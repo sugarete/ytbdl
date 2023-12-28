@@ -22,9 +22,12 @@ for i in my_video.streams.filter(mime_type="video/mp4", progressive=True):
 for itag in my_video.streams:
     print(itag.itag, itag.resolution, itag.mime_type, itag.abr, itag.url)
 
-print("Video streams----------------------")
-for streams in my_video.streams.filter(mime_type="video/mp4", progressive=True):
-    print(streams)
+print("Audio streams----------------------")
+for streams in my_video.streams.filter(only_audio=True):
+    print(streams, ":", streams.url)
+
+my_video.streams.get_audio_only().download()
+my_video.streams.get_by_itag(251).download()
 
 print("Video streams")
 print(streams)
