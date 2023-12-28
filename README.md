@@ -32,10 +32,10 @@ Guide to run the server:
 Update: 25/12/2023:
 Thay đổi cách thức hoạt động của server:
 Tải video về server và send file về client, mục đích tải về server là để có thể xử lý video (cắt, ghép, thay đổi định dạng)
-- [x] Cho phép lựa chọn chất lượng video tải về !(tuy nhiên vẫn còn gặp nhiều hạn chế khi chọn các chất lượng không đi kèm với âm thanh)  
-- [ ] Cho phép lựa chọn tải audio riêng  - Pytube
+- [x] Cho phép lựa chọn chất lượng video tải về (FLV) !(tuy nhiên vẫn còn gặp nhiều hạn chế khi chọn các chất lượng không đi kèm với âm thanh)  
+- [x] Cho phép lựa chọn tải audio riêng MP3  - Pytube
 - [ ] Search Query Processing - Youtube Data API hoặc Pytube
 - [ ] Lưu lịch sử tải về 
 - [ ] Cắt video tại thời điểm được chỉ định (Làm UI cho phần lựa chọn) - Pytube hoặc FFmpeg 
-- [ ] Cho phép lựa chọn định dạng video tải về (mp4, flv, avi, mkv, webm)  - FFmpeg
+- [~] Cho phép lựa chọn định dạng video tải về (mp4, flv, avi, mkv, webm)  - FFmpeg
 
