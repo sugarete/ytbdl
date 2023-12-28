@@ -23,8 +23,8 @@ Guide to run the server:
 - Make sure you activate the virtual environment before running the server by running `.venv/Scripts/activate` in the terminal.  
 - Run `pip install -r requirements.txt` to install all the required packages.
 - Run `python ytbdl.py` to start server and open `localhost:80` to use.  
+- If you want to use format other than mp4, you need to install ffmpeg and add it to PATH Guide in docs/utils/ffmpeg.md.
 - The current repo have 3 main part:  
-    + youtube_dl: The module to download video from Youtube  
     + ytbdl.py: The server to handle request from client and return video  
     + app folder: Contain user interface  
 
@@ -37,5 +37,5 @@ Tải video về server và send file về client, mục đích tải về serve
 - [ ] Search Query Processing - Youtube Data API hoặc Pytube
 - [ ] Lưu lịch sử tải về 
 - [ ] Cắt video tại thời điểm được chỉ định (Làm UI cho phần lựa chọn) - Pytube hoặc FFmpeg 
-- [~] Cho phép lựa chọn định dạng video tải về (mp4, flv, avi, mkv, webm)  - FFmpeg
+- [x] Cho phép lựa chọn định dạng video tải về (mp4, flv, avi,..)  - FFmpeg
 
