@@ -49,11 +49,24 @@ def download_video():
     print("formats: ", formats)
     print("quality: ", quality)
     if url and quality:
-        video = YouTube(url)
-        video_url = video.streams.get_by_itag(quality)
-        video_path = video_url.download(send_directory)
-        print("video_path: ", video_path)
-        return send_file(video_path, as_attachment=True)
+        yt = YouTube(url)
+        video_url = yt.streams.get_by_itag(quality)
+
+        video_path = video_url.download(download_directory)
+        video_clip = VideoFileClip(video_path)
+        yt.streams.get_by_itag(140).download(filename="audio.mp4")
+        audio_clip = AudioFileClip("audio.mp4")
+        final_clip = video_clip.set_audio(audio_clip)
+
+        final_clip.write_videofile("clip.mp4")
+        # file_path = os.path.join('q:\\ytbdl-2\\app', 'clip.mp4')
+        print("done")
+        return send_file('Q:\ytbdl-2\clip.mp4', as_attachment=True)
+#         video = YouTube(url)
+#         video_url = video.streams.get_by_itag(quality)
+#         video_path = video_url.download(send_directory)
+#         print("video_path: ", video_path)
+#         return send_file(video_path, as_attachment=True)
     else:
         return "Invalid request"
 

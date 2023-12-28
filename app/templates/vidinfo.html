@@ -8,7 +8,26 @@
     </div>
     <div class="video-details">
         <div class="video-download">
-            <select name="formats">
+            <!-- <form action="/download" method="post">
+                <label for="quality">Select Quality:</label>
+                <select name="selected_quality" id="quality">
+                    {% for resolution in resolutions %}
+                        <option value="{{ resolution }}">{{ resolution }}p</option>
+                    {% endfor %}
+                </select>
+                <input type="hidden" name="url" value="{{ video.watch_url }}">
+                <button type="submit" class="download-button">
+                    <img src="../static/images/download.png" alt="download" />
+                </button>
+            </form> -->
+        {% for stream in video.streams.filter(mime_type="video/mp4", progressive=False,only_video=True) %}
+            <div>
+                <a href="{{ url_for('views.download', url=url, quality=stream.itag) }}">
+                    <button>{{ stream.resolution }}</button>
+                </a>               
+            </div>
+        {% endfor %}
+<!--             <select name="formats">
                 {% for format in supported_formats %}
                     <option value="{{ format }}">{{ format }}</option>
                 {% endfor %}
@@ -19,7 +38,7 @@
             <button onclick="submitFormats()">Download</button>
             <a href="{{ url_for('views.download_audio', url=url) }}">
                 <button>Audio</button>
-            </a>
+            </a> -->
         </div>
     </div>
 </div>
@@ -48,3 +67,4 @@
 </script>
 
 {% endblock %}
+```
