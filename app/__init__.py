@@ -7,8 +7,14 @@ def create_app():
     app.config['SECRET_KEY'] = 'abcdefg7749177013'
 
     from .views import views
+    from .downloads import downloads
     from .auth import auth
-    app.register_blueprint(auth, url_prefix='/auth')
+    from .easy import easy
+
+
+    app.register_blueprint(auth, url_prefix='/auth/')
+    app.register_blueprint(downloads, url_prefix='/')
     app.register_blueprint(views, url_prefix='/')
+    app.register_blueprint(easy, url_prefix='/dl/')
 
     return app

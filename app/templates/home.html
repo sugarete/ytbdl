@@ -1,20 +1,56 @@
-{% extends "index.html" %} {% block content %}
-<img class="img-title" src="../static/images/title.png" href="/" alt="logo" />
-<form id="download-form" class="input" method="POST">
-  <div class="search_bar">
-    <input
-      type="text"
-      autocomplete="off"
-      name="url"
-      id="url"
-      placeholder="Paste your URL here"
-    />
-    <button type="reset" id="reset" onclick="reset()">
-      <img src="../static/images/clear.png" />
-    </button>
-  </div>
-  <button class="extract" onclick="setAction('/extract')">
-    <img src="../static/images/extract.png" alt="extract" />
+{%extends "index.html"%} {%block content%}
+<img
+  class="img-title"
+  src="../static/images/title.png"
+  alt="logo"
+  style="width: auto; height: 175px"
+/>
+<form id="download-form" class="main-page1" method="GET">
+  <button class="paste">
+    <img src="../static/images/paste.png" alt="link" />
   </button>
-  {% endblock %}
+  <input
+    type="text"
+    autocomplete="off"
+    name="url"
+    id="url"
+    placeholder="Search or Paste YT's URL here"
+  />
+  <button
+    class="reset"
+    type="reset"
+    onclick="reset()"
+    style="background-color: black"
+  >
+    <img src="../static/images/clear.png" />
+  </button>
+  <button class="proceed">
+    <img src="../static/images/proceed.png" alt="proceed" />
+  </button>
 </form>
+
+<div class="option">
+  <button id="video-button" onclick="setManualAction('/dl/video')">
+    Video
+  </button>
+  <button id="advanced-button" onclick="setManualAction('/extract')">
+    Advanced
+  </button>
+  <button id="audio-button" onclick="setManualAction('/dl/audio')">
+    Audio
+  </button>
+</div>
+
+<script>
+  var selectedOption = null;
+
+  function setManualAction(action) {
+    document.getElementById("download-form").action = action;
+    if (selectedOption) {
+      selectedOption.classList.remove("selected");
+    }
+    selectedOption = event.target; // Get the clicked button element
+    selectedOption.classList.add("selected");
+  }
+</script>
+{% endblock %}
