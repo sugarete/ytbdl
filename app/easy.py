@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request, send_file
 from pytube import YouTube
 import os
-from urllib.parse import unquote
 
 easy = Blueprint('easy', __name__)
 
