@@ -1,0 +1,35 @@
+{% extends "index.html" %} 
+{% block content %}
+<img class="img-title" src="../static/images/title.png" href="/" alt="logo" />
+<form id="download-form" class="input" method="POST">
+  <div class="search_bar">
+    <input
+      type="text"
+      autocomplete="off"
+      name="url"
+      id="url"
+      placeholder="Paste your URL here"
+    />
+    <button type="reset" id="reset" onclick="reset()">
+      <img src="../static/images/clear.png" />
+    </button>
+  </div>
+  <button class="extract" onclick="setAction('/extract')">
+    <img src="../static/images/extract.png" alt="extract" />
+  </button>
+</form>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      var urlValue = urlParams.get('url');
+      
+      if (urlValue) {
+          document.getElementById('url').value = decodeURIComponent(urlValue);
+      }
+  });
+
+  function reset() {
+    document.getElementById('url').value = '';
+  }
+</script>
+{% endblock %}
