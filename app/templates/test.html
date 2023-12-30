@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center;
+        }
+
+        button {
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        img {
+            height: 40px;
+            width: auto;
+            margin-right: 10px; /* Adjust margin as needed */
+        }
+
+        /* You can add more styling as needed */
+
+    </style>
+    <title>Button with Image and Text</title>
+</head>
+<body>
+
+    <div class="button-container">
+        <button type="button" onclick="handleButtonClick()">
+            <img src="../static/images/demon1.png" alt="video" />
+            Video
+        </button>
+    </div>
+
+    <script>
+        function handleButtonClick() {
+            // Implement your button click logic here
+            alert("Button Clicked!");
+        }
+    </script>
+
+</body>
+</html>

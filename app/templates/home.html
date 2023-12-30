@@ -1,27 +1,11 @@
 {%extends "index.html"%} {%block content%}
-<img
-  class="img-title"
-  src="../static/images/title.png"
-  alt="logo"
-  style="width: auto; height: 175px"
-/>
+<img class="img-title" src="../static/images/title.png" alt="logo" style="width: auto; height: 175px" />
 <form id="download-form" class="main-page1" method="GET">
   <button class="paste">
     <img src="../static/images/paste.png" alt="link" />
   </button>
-  <input
-    type="text"
-    autocomplete="off"
-    name="url"
-    id="url"
-    placeholder="Search or Paste YT's URL here"
-  />
-  <button
-    class="reset"
-    type="reset"
-    onclick="reset()"
-    style="background-color: black"
-  >
+  <input type="text" autocomplete="off" name="url" id="url" placeholder="Search or Paste YT's URL here" />
+  <button class="reset" type="reset" onclick="reset()" style="background-color: black">
     <img src="../static/images/clear.png" />
   </button>
   <button class="proceed">
@@ -31,13 +15,15 @@
 
 <div class="option">
   <button id="video-button" onclick="setManualAction('/dl/video')">
-    Video
+    <img style="height: 40px; width: auto; margin-right: 2px" src="../static/images/demon1.png" alt="video" />
+    video
   </button>
   <button id="advanced-button" onclick="setManualAction('/extract')">
-    Advanced
+    advanced
   </button>
   <button id="audio-button" onclick="setManualAction('/dl/audio')">
-    Audio
+    audio
+    <img style="height: 43px; width: auto; margin-left: 2px" src="../static/images/demon2.png" alt="audio" />
   </button>
 </div>
 

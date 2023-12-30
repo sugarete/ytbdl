@@ -37,7 +37,7 @@ body {
     justify-content: center;
     /* Center content horizontally */
     align-items: center;
-    margin-bottom: 15%;
+    margin-bottom: 20%;
 }
 
 .main-page1 input[type="text"],
@@ -90,13 +90,15 @@ body {
 
 .option button {
     font-family: 'Roboto', sans-serif;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 20px;
     height: 50px;
     background-color: rgb(44, 44, 44);
     color: white;
     border: 1px solid rgba(84, 82, 82, 0.5);
-    padding: 0 20px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
     /* Set same height for all elements */
     cursor: pointer;
 }

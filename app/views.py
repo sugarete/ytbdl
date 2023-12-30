@@ -31,3 +31,6 @@ def extract():
             return "Invalid URL."
 
 
+@views.route('/test')
+def test():
+    return render_template("test.html")
