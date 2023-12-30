@@ -1,14 +1,10 @@
 from flask import Blueprint, render_template, request, send_file
 from pytube import YouTube,Search
 from moviepy.editor import VideoFileClip, AudioFileClip
-import ffmpeg
-import os
 from urllib.parse import unquote
 from datetime import timedelta
 import re
 from flask import Flask, render_template
-from flask_wtf import FlaskForm
-from wtforms import SubmitField
 
 
 views = Blueprint('views', __name__)
@@ -48,12 +44,9 @@ def search():
     keyword = unquote(request.args.get('url'))
     if (is_url_valid(keyword)):
         return render_template('home.html', url = keyword)
-        
     else:
         videos = search_youtube(keyword)
-        return render_template('home.html', videos=videos)
-
-    
+        return render_template('home.html', videos=videos, show_results=True)
 
 @views.route('/home')
 def home_page():
