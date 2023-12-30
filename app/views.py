@@ -1,6 +1,10 @@
 from flask import Blueprint, render_template, request, send_file
 from pytube import YouTube,Search
+from urllib.parse import unquote
 from datetime import timedelta
+import re
+from flask import Flask, render_template
+
 
 views = Blueprint('views', __name__)
 
@@ -10,10 +14,18 @@ supported_formats = ['mp4', 'mov', 'avi', 'flv', 'm4a', 'wav', '3gp']
 def format_time(seconds):
     return str(timedelta(seconds=seconds))
 
+def is_url_valid(url):
+    url_regex = r"https?://([0-9a-zA-Z-_])"
+
+    if re.match(url_regex, url):
+        return True
+    else:
+        return False
+    
 # main page routes
 @views.route('/')
 def home():
-    return render_template("search.html")
+    return render_template("home.html")
 
 # extract video info
 @views.route('/extract', methods=['POST', 'GET'])
@@ -26,11 +38,14 @@ def extract():
         else:
             return "Invalid URL."
 
-@views.route('/search', methods=['POST'])
+@views.route('/search', methods=['GET'])
 def search():
-    keyword = request.form['keyword']
-    videos = search_youtube(keyword)
-    return render_template('search.html', videos=videos)
+    keyword = unquote(request.args.get('url'))
+    if (is_url_valid(keyword)):
+        return render_template('home.html', url = keyword)
+    else:
+        videos = search_youtube(keyword)
+        return render_template('home.html', videos=videos, show_results=True)
 
 @views.route('/home')
 def home_page():

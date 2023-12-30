@@ -1,53 +1,106 @@
-{%extends "index.html"%} {%block content%}
+{%extends "index.html"%}
+{%block content%}
 <img class="img-title" src="../static/images/title.png" alt="logo" style="width: auto; height: 175px" />
 <form id="download-form" class="main-page1" method="GET">
-  <button class="paste">
-    <img src="../static/images/paste.png" alt="link" />
-  </button>
-  <input type="text" autocomplete="off" name="url" id="url" placeholder="Search or Paste YT's URL here" />
-  <button class="reset" type="reset" onclick="reset()" style="background-color: black">
-    <img src="../static/images/clear.png" />
-  </button>
-  <button class="proceed">
-    <img src="../static/images/proceed.png" alt="proceed" />
-  </button>
+    <button class="paste">
+        <img src="../static/images/paste.png" alt="link" />
+    </button>
+    <input type="text" autocomplete="off" name="url" id="url" placeholder="Search or Paste YT's URL here" />
+    <button class="reset" type="reset" onclick="reset()" style="background-color: black">
+        <img src="../static/images/clear.png" />
+    </button>
+
+
+    <button class="search" type="search" style="background-color: black" onclick="setManualAction('/search')"
+        value="Click for popup">
+        <img src="../static/images/search.png" />
+    </button>
+
+    <button class="proceed">
+        <img src="../static/images/proceed.png" alt="proceed" />
+    </button>
 </form>
-<div class="option">
-  <button id="video-button" onclick="setManualAction('/dl/video')">
-    <img style="height: 40px; width: auto; margin-right: 2px" src="../static/images/demon1.png" alt="video" />
-    video
-  </button>
-  <button id="advanced-button" onclick="setManualAction('/extract')">
-    advanced
-  </button>
-  <button id="audio-button" onclick="setManualAction('/dl/audio')">
-    audio
-    <img style="height: 43px; width: auto; margin-left: 2px" src="../static/images/demon2.png" alt="audio" />
-  </button>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        {% if videos %}
+        <h2 style="margin-bottom: 10px; margin-left: 5px">Search Results:</h2>
+        <div class="videos-container">
+            {% for video in videos[0:5] %}
+            <div class="video-item" onclick="redirectToHome('{{ video.url }}')">
+                <img class="thumbnail" src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                <a href="/home?url={{ video.url }}">{{ video.title }}</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
 </div>
 
+<div class="option">
+    <button id="video-button" onclick="setManualAction('/dl/video')">
+        <img style="height: 40px; width: auto; margin-right: 2px" src="../static/images/demon1.png" alt="video" />
+        video
+    </button>
+    <button id="advanced-button" onclick="setManualAction('/extract')">
+        advanced
+    </button>
+    <button id="audio-button" onclick="setManualAction('/dl/audio')">
+        audio
+        <img style="height: 43px; width: auto; margin-left: 2px" src="../static/images/demon2.png" alt="audio" />
+    </button>
+</div>
+
+
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var urlParams = new URLSearchParams(window.location.search);
-    var urlValue = urlParams.get('url');
+    document.addEventListener('DOMContentLoaded', function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        var urlValue = urlParams.get('url');
+        if (urlValue) {
+            document.getElementById('url').value = decodeURIComponent(urlValue);
+        }
+        var showResults = Boolean("{{show_results}}") || false; // Ensure it's a lowercase boolean
+        if (showResults) {
+            showSearchResults();
+        }
+    });
 
-    if (urlValue) {
-      document.getElementById('url').value = decodeURIComponent(urlValue);
+    function reset() {
+        document.getElementById('url').value = '';
     }
-  });
 
-  function reset() {
-    document.getElementById('url').value = '';
-  }
-  var selectedOption = null;
-
-  function setManualAction(action) {
-    document.getElementById("download-form").action = action;
-    if (selectedOption) {
-      selectedOption.classList.remove("selected");
+    var selectedOption = null;
+    function setManualAction(action) {
+        document.getElementById("download-form").action = action;
+        if (selectedOption) {
+            selectedOption.classList.remove("selected");
+        }
+        selectedOption = event.target; // Get the clicked button element
+        selectedOption.classList.add("selected");
     }
-    selectedOption = event.target; // Get the clicked button element
-    selectedOption.classList.add("selected");
-  }
+
+    function redirectToHome(url) {
+        window.location.href = '/home?url=' + encodeURIComponent(url);
+    }
+
+    function handleButtonClick() {
+        // Implement your button click logic here
+        alert("Button Clicked!");
+    }
+
+    function openModal() {
+        document.getElementById('myModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none';
+    }
+
+    // Add this function to your existing script
+    function showSearchResults() {
+        openModal();
+    }
+
 </script>
 {% endblock %}
