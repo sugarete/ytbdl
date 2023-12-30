@@ -16,7 +16,7 @@
             <button value="{{ stream.itag }}" onclick="selectQuality(this)">{{ stream.resolution }}</button>
         {% endfor %}
         <button onclick="submitFormats()">Download</button>
-        <a href="{{ url_for('views.download_audio', url=url) }}">
+        <a href="{{ url_for('downloads.download_audio', url=url) }}">
             <button>Audio</button>
         </a>
     </div>
@@ -33,7 +33,7 @@
         var selectedFormat = document.querySelector('select[name="formats"]').value;
 
         if (selectedQuality && selectedFormat) {
-            var downloadUrl = "{{ url_for('views.download_video', url=url, format='__format__', quality='__quality__') }}";
+            var downloadUrl = "{{ url_for('downloads.download_video', url=url, format='__format__', quality='__quality__') }}";
             downloadUrl = downloadUrl.replace('__format__', selectedFormat).replace('__quality__', selectedQuality);
             downloadUrl = downloadUrl.replaceAll("&amp;", "&");
             window.location.href = downloadUrl;
