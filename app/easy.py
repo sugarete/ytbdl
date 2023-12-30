@@ -15,6 +15,7 @@ if not os.path.exists(send_directory):
 def download_easy_video():
     url = request.args.get('url')
     if url:
+        print("Downloading video form ", url)
         video = YouTube(url)
         video_path = video.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download(output_path=send_directory)
         return send_file(video_path, as_attachment=True)

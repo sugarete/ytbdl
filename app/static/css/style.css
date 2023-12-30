@@ -43,7 +43,8 @@ body {
 .main-page1 input[type="text"],
 .main-page1 .reset,
 .main-page1 .proceed,
-.main-page1 .paste {
+.main-page1 .paste,
+.main-page1 .search{
     font-family: 'Roboto', sans-serif;
     font-size: 1.5rem;
     height: 40px;
@@ -68,7 +69,8 @@ body {
 
 .main-page1 .reset img,
 .main-page1 .proceed img,
-.main-page1 .paste img {
+.main-page1 .paste img,
+.main-page1 .search img{
     background-color: black;
     height: 40px;
     width: auto;

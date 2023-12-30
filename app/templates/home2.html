@@ -1,0 +1,56 @@
+{%extends "index.html"%} {%block content%}
+<img class="img-title" src="../static/images/title.png" alt="logo" style="width: auto; height: 175px" />
+<form id="download-form" class="main-page1" method="GET">
+  <button class="paste">
+    <img src="../static/images/paste.png" alt="link" />
+  </button>
+  <input type="text" autocomplete="off" name="url" id="url" placeholder="Search or Paste YT's URL here" />
+  <button class="reset" type="reset" onclick="reset()" style="background-color: black">
+    <img src="../static/images/clear.png" />
+  </button>
+  <button class="search" type="search" style="background-color: black">
+    <img src="../static/images/search.png" />
+  </button>
+  <button class="proceed">
+    <img src="../static/images/proceed.png" alt="proceed" />
+  </button>
+</form>
+<div class="option">
+  <button id="video-button" onclick="setManualAction('/dl/video')">
+    <img style="height: 40px; width: auto; margin-right: 2px" src="../static/images/demon1.png" alt="video" />
+    video
+  </button>
+  <button id="advanced-button" onclick="setManualAction('/extract')">
+    advanced
+  </button>
+  <button id="audio-button" onclick="setManualAction('/dl/audio')">
+    audio
+    <img style="height: 43px; width: auto; margin-left: 2px" src="../static/images/demon2.png" alt="audio" />
+  </button>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var urlParams = new URLSearchParams(window.location.search);
+    var urlValue = urlParams.get('url');
+
+    if (urlValue) {
+      document.getElementById('url').value = decodeURIComponent(urlValue);
+    }
+  });
+
+  function reset() {
+    document.getElementById('url').value = '';
+  }
+  var selectedOption = null;
+
+  function setManualAction(action) {
+    document.getElementById("download-form").action = action;
+    if (selectedOption) {
+      selectedOption.classList.remove("selected");
+    }
+    selectedOption = event.target; // Get the clicked button element
+    selectedOption.classList.add("selected");
+  }
+</script>
+{% endblock %}
