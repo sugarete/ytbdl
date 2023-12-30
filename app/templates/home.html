@@ -12,7 +12,6 @@
     <img src="../static/images/proceed.png" alt="proceed" />
   </button>
 </form>
-
 <div class="option">
   <button id="video-button" onclick="setManualAction('/dl/video')">
     <img style="height: 40px; width: auto; margin-right: 2px" src="../static/images/demon1.png" alt="video" />
@@ -28,6 +27,18 @@
 </div>
 
 <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var urlParams = new URLSearchParams(window.location.search);
+    var urlValue = urlParams.get('url');
+
+    if (urlValue) {
+      document.getElementById('url').value = decodeURIComponent(urlValue);
+    }
+  });
+
+  function reset() {
+    document.getElementById('url').value = '';
+  }
   var selectedOption = null;
 
   function setManualAction(action) {
