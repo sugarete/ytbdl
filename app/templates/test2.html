@@ -1,0 +1,73 @@
+{%extends "index.html"%} {%block content%}
+<div class="main-page2">
+    <div class="sector1">
+        <div class="video-sector"></div>
+        <div class="cut-sector"></div>
+    </div>
+    <div class="sector2">
+        <div class="result-sector">
+            <p class="sector-title">Result</p>
+            <div class="result-list">   
+                <p>VIDEO:</p>
+                <button>DOWNLOAD</button>
+            </div>
+        </div>
+        <div class="qual-sector">
+            <p class="sector-title">Quality</p>
+            <div class="quality-list">
+                {% for stream in video.streams.filter(mime_type="video/mp4", progressive=False, only_video=True) %}
+                <button value="{{ stream.itag }}" onclick="selectQuality(this)">
+                    {{ stream.resolution }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="format-sector">
+            <p class="sector-title">Format</p>
+            <div class="format-list">
+                {% for format in supported_formats %}
+                <button value="{{ format }}" onclick="selectFormat(this)">
+                    {{ format }}
+                </button>
+                {% endfor %} 
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var selectedQuality = null;
+    function selectQuality(button) {
+        if(selectedQuality) {
+            selectedQuality.classList.remove("selected");
+        }
+        selectedQuality = button;
+        selectedQuality.classList.add("selected");
+        // CSS is used to highlight the selected button
+    }
+
+    var selectedFormat = null;
+    function selectFormat(button) {
+        if(selectedFormat) {
+            selectedFormat.classList.remove("selected");
+        }
+        selectedFormat = button;
+        selectedFormat.classList.add("selected");
+    }
+
+    function submitFormats() {
+        if (selectedQuality && selectedFormat) {
+            var downloadUrl =
+                "{{ url_for('downloads.download_video', url=url, format='__format__', quality='__quality__') }}";
+            downloadUrl = downloadUrl
+                .replace("__format__", selectedFormat)
+                .replace("__quality__", selectedQuality);
+            downloadUrl = downloadUrl.replaceAll("&amp;", "&");
+            window.location.href = downloadUrl;
+        } else {
+            alert("Please select a format and quality.");
+        }
+    }
+</script>
+
+{% endblock %}
