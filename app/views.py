@@ -7,8 +7,6 @@ from urllib.parse import unquote
 from datetime import timedelta
 import re
 from flask import Flask, render_template
-from flask_wtf import FlaskForm
-from wtforms import SubmitField
 
 
 views = Blueprint('views', __name__)
