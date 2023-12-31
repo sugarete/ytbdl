@@ -4,17 +4,26 @@
     <div class="sector1">
         <div class="video-sector">
             <div id="player"></div>
-            <!-- <iframe id="playing" width="100%" height="100%" src="http://youtube.com/embed/{{video_id}}"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe> -->
         </div>
         <div class="cut-sector">
-            <button onclick="getStartTime()">Start</button>
-            <div style="color: white;" id="StartTime"></div>
-            <button onclick="getEndTime()">End</button>
-            <div style="color: white;" id="EndTime"></div>
-            <button onclick="check_condi()">Trim Comfirm</button>
+            <div class="fstcut">
+                <div class="extract-time">
+                    <!-- <p>Please use Input form if Video Unavailable</p> -->
+                    <div class="extract-start">
+                        <button onclick="getStartTime()">start</button>
+                        <div style="color: white; display:none;" id="StartTime"></div>
+                        <input type="text" id="startTimeInput" oninput="updateStartTime()" placeholder="Enter Start Time" />
+                    </div>
+                    <div class="extract-end">
+                        <button onclick="getEndTime()">end</button>
+                        <div style="color: white; display:none;" id="EndTime"></div>
+                        <input type="text" id="endTimeInput" oninput="updateEndTime()" placeholder="Enter End Time" />
+                    </div>
+                </div>
+                <div class="cut-button">
+                    <button onclick="check_cut_condition()">Trim Comfirm</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="sector2">
@@ -22,17 +31,18 @@
             <p class="sector-title">Result</p>
             <div class="result-list">
                 <form id="downloadForm" action="{{ url_for('downloads.download_video', url=url) }}" method="get">
-                    <input type="hidden" id="startTimeField" name="startTime" value="">
-                    <input type="hidden" id="endTimeField" name="endTime" value="">
-                
-                    <button type="button" onclick="submitFormats()">Download</button>
+                    <input type="hidden" id="startTimeField" name="startTime" value="" />
+                    <input type="hidden" id="endTimeField" name="endTime" value="" />
+
+                    <button type="button" onclick="submitDownload()">Download</button>
                 </form>
             </div>
         </div>
         <div class="qual-sector">
-            <p class="sector-title">Quality</p>
+            <p class="sector-title">Select Quality</p>
             <div class="quality-list">
-                {% for stream in video.streams.filter(mime_type="video/mp4", progressive=False, only_video=True) %}
+                {% for stream in video.streams.filter(mime_type="video/mp4",
+                progressive=False, only_video=True) %}
                 <button value="{{ stream.itag }}" onclick="selectQuality(this)">
                     {{ stream.resolution }}
                 </button>
@@ -40,7 +50,7 @@
             </div>
         </div>
         <div class="format-sector">
-            <p class="sector-title">Format</p>
+            <p class="sector-title">Select Format: </p>
             <div class="format-list">
                 {% for format in supported_formats %}
                 <button value="{{ format }}" onclick="selectFormat(this)">
@@ -50,11 +60,19 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
 <script>
+
+    // Set default values for format 
+    document.addEventListener('DOMContentLoaded', function () {
+        // Set default format (mp4)
+        var defaultFormatButton = document.querySelector('.format-list button[value="mp4"]');
+        if (defaultFormatButton) {
+            selectFormat(defaultFormatButton);
+        }
+    });
+
     var selectedQuality = null;
     function selectQuality(button) {
         if (selectedQuality) {
@@ -64,7 +82,6 @@
         selectedQuality.classList.add("selected");
         // CSS is used to highlight the selected button
     }
-
     var selectedFormat = null;
     function selectFormat(button) {
         if (selectedFormat) {
@@ -73,78 +90,91 @@
         selectedFormat = button;
         selectedFormat.classList.add("selected");
     }
-
-    function submitFormats() {
-    if (selectedQuality && selectedFormat) {
-        var qualityValue = selectedQuality.value;
-        var formatValue = selectedFormat.value;
-        var downloadUrl =
-            "{{ url_for('downloads.download_video', url=url, format='__format__', quality='__quality__') }}";
-        downloadUrl = downloadUrl
-            .replace("__format__", formatValue)
-            .replace("__quality__", qualityValue);
-        downloadUrl += "&startTime=" + startTime + "&endTime=" + EndTime;
-        downloadUrl = downloadUrl.replaceAll("&amp;", "&");
-        window.location.href = downloadUrl;
-    } else {
-        alert("Please select a format and quality.");
+    //Download_handler
+    function submitDownload() {
+        if (selectedQuality) {
+            var qualityValue = selectedQuality.value;
+            var formatValue = selectedFormat.value;
+            var downloadUrl =
+                "{{ url_for('downloads.download_video', url=url, format='__format__', quality='__quality__') }}";
+            downloadUrl = downloadUrl
+                .replace("__format__", formatValue)
+                .replace("__quality__", qualityValue);
+            downloadUrl +=
+                "&Trim=" + enTrim + "&startTime=" + startTime + "&endTime=" + endTime;
+            downloadUrl = downloadUrl.replaceAll("&amp;", "&");
+            window.location.href = downloadUrl;
+        } else {
+            alert("Please select quality.");
+        }
     }
-    }
-
     // Function to create and initialize the YouTube player
     var player;
-    var startTime=null;
-
-    var EndTime=null;
+    var startTime = null;
+    var endTime = null;
+    var enTrim = false;
     function onYouTubeIframeAPIReady() {
         console.log("YouTube API ready");
         //player = new YT.Player('playing');
-        player = new YT.Player('player', {
-            width: '100%',
-            heigh: '100%',
+        player = new YT.Player("player", {
+            width: "100%",
+            heigh: "100%",
             videoId: "{{video_id}}",
             playerVars: {
-                'playsinline': 1,
-                'autoplay': 1
+                playsinline: 1,
+                autoplay: 0,
             },
             events: {
-                'onReady': onPlayerReady,
+                onReady: onPlayerReady,
                 //'onStateChange': onPlayerStateChange
-            }
+            },
         });
     }
+    function getCurrentTime() {
+        var currentTime = player.getCurrentTime().toFixed(1);
+        console.log(currentTime);
+        return currentTime;
+    }
+
     function onPlayerReady() {
         console.log("Player ready");
     }
-    function getCurrentTime() {
-        var currentTime = player.getCurrentTime();
-        console.log(currentTime);
-    }
+
     function getStartTime() {
-        startTime = player.getCurrentTime();
+        startTime = getCurrentTime();
         document.getElementById("StartTime").innerHTML = startTime;
+        document.getElementById("startTimeInput").value = startTime;
         console.log(startTime);
     }
     function getEndTime() {
-        EndTime = player.getCurrentTime();
-        document.getElementById("EndTime").innerHTML = EndTime;
+        endTime = getCurrentTime();
+        document.getElementById("EndTime").innerHTML = endTime;
+        document.getElementById("endTimeInput").value = endTime;
         console.log(EndTime);
     }
-    function check_condi() {
-        if (startTime == null || EndTime == null) {
-            console.log("Chưa chọn thời gian");
-        }
-        else {
-            if (EndTime < startTime) {
-                console.log("Invalid time");
-            }
-            else {
-                console.log("OK");
+    function updateStartTime() {
+        startTime = parseFloat(document.getElementById("startTimeInput").value) || 0;
+        document.getElementById("StartTime").innerHTML = startTime;
+        console.log(startTime);
+    }
+
+    function updateEndTime() {
+        endTime = parseFloat(document.getElementById("endTimeInput").value) || 0;
+        document.getElementById("EndTime").innerHTML = endTime;
+        console.log(endTime);
+    }
+    function check_cut_condition() {
+        if (startTime == null || endTime == null) {
+            window.alert("Please select start and end time");
+        } else {
+            if (endTime <= startTime) {
+                window.alert("End time must be greater than start time");
+            } else {
+                enTrim = true;
+                window.alert("Set Trim");
             }
         }
     }
-
-
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 
