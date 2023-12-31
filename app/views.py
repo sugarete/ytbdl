@@ -17,12 +17,15 @@ def format_time(seconds):
 
 def is_url_valid(url):
     url_regex = r"https?://([0-9a-zA-Z-_])"
-
     if re.match(url_regex, url):
         return True
     else:
         return False
-    
+@views.after_request
+def set_headers(response):
+    response.headers["Referrer-Policy"] = 'no-referrer'
+    return response
+
 # main page routes
 @views.route('/')
 def home():
@@ -35,7 +38,7 @@ def extract():
         url = request.args.get('url')
         if url:
             video = YouTube(url)
-            video_id = pytube.extract.video_id(url)
+            video_id = video.video_id
             return render_template('test.html', video=video, url = url, format_time=format_time, supported_formats=supported_formats, video_id=video_id)
         else:
             return "Invalid URL."

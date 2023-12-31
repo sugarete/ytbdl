@@ -60,8 +60,16 @@ def convert_format(video_path, video_format):
 def download_video():
     print("request.args: ", request.args)
     url = unquote(request.args.get('url'))
+    print(url)
     selected_format = request.args.get('format')
+    print(selected_format)
     quality = request.args.get('quality')
+    print(quality)
+    startTime = request.args.get('startTime')
+    print(startTime)
+    endTime = request.args.get('endTime')
+    print(endTime)
+
     # print("url: ", url)
     # print("formats: ", selected_format)
     # print("quality: ", quality)
@@ -80,8 +88,9 @@ def download_video():
             full_video_path = os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path))
             # print("out_video_path: ", out_video_path)
             final_clip.write_videofile(full_video_path)
-            # file_path = os.path.join('q:\\ytbdl-2\\app', 'clip.mp4')
-            # print("done")
+            clip=VideoFileClip(full_video_path) 
+            clip = clip.subclip(startTime, endTime)
+            clip.write_videofile(full_video_path)
             os.remove(video_path)
             os.remove(audio_path)
             if selected_format == 'mp4':
