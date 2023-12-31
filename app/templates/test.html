@@ -1,4 +1,5 @@
 {%extends "index.html"%} {%block content%}
+
 <div class="main-page2">
     <div class="sector1">
         <div class="video-sector">
@@ -20,8 +21,12 @@
         <div class="result-sector">
             <p class="sector-title">Result</p>
             <div class="result-list">
-                <p>VIDEO:</p>
-                <button>DOWNLOAD</button>
+                <form id="downloadForm" action="{{ url_for('downloads.download_video', url=url) }}" method="get">
+                    <input type="hidden" id="startTimeField" name="startTime" value="">
+                    <input type="hidden" id="endTimeField" name="endTime" value="">
+                
+                    <button type="button" onclick="submitFormats()">Download</button>
+                </form>
             </div>
         </div>
         <div class="qual-sector">
@@ -70,24 +75,27 @@
     }
 
     function submitFormats() {
-        if (selectedQuality && selectedFormat) {
-            var downloadUrl =
-                "{{ url_for('downloads.download_video', url=url, format='__format__', quality='__quality__') }}";
-            downloadUrl = downloadUrl
-                .replace("__format__", selectedFormat)
-                .replace("__quality__", selectedQuality);
-            downloadUrl = downloadUrl.replaceAll("&amp;", "&");
-            window.location.href = downloadUrl;
-        } else {
-            alert("Please select a format and quality.");
-        }
+    if (selectedQuality && selectedFormat) {
+        var qualityValue = selectedQuality.value;
+        var formatValue = selectedFormat.value;
+        var downloadUrl =
+            "{{ url_for('downloads.download_video', url=url, format='__format__', quality='__quality__') }}";
+        downloadUrl = downloadUrl
+            .replace("__format__", formatValue)
+            .replace("__quality__", qualityValue);
+        downloadUrl += "&startTime=" + startTime + "&endTime=" + EndTime;
+        downloadUrl = downloadUrl.replaceAll("&amp;", "&");
+        window.location.href = downloadUrl;
+    } else {
+        alert("Please select a format and quality.");
+    }
     }
 
     // Function to create and initialize the YouTube player
     var player;
-    var startTime;
+    var startTime=null;
 
-    var EndTime;
+    var EndTime=null;
     function onYouTubeIframeAPIReady() {
         console.log("YouTube API ready");
         //player = new YT.Player('playing');
