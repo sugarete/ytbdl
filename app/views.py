@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, send_file
 from pytube import YouTube,Search
+import pytube
 from urllib.parse import unquote
 from datetime import timedelta
 import re
@@ -34,7 +35,8 @@ def extract():
         url = request.args.get('url')
         if url:
             video = YouTube(url)
-            return render_template('test.html', video=video, url = url, format_time=format_time, supported_formats=supported_formats)
+            video_id = pytube.extract.video_id(url)
+            return render_template('test.html', video=video, url = url, format_time=format_time, supported_formats=supported_formats, video_id=video_id)
         else:
             return "Invalid URL."
 
