@@ -1,7 +1,7 @@
 {%extends "index.html"%}
 {%block content%}
 <img class="img-title" src="../static/images/title.png" alt="logo" style="width: auto; height: 175px" />
-<form id="download-form" class="main-page1" method="GET">
+<form id="download-form" class="main-page1" method="GET" onkeydown="return event.key != 'Enter'">
     <button class="paste">
         <img src="../static/images/paste.png" alt="link" />
     </button>
@@ -11,7 +11,7 @@
     </button>
 
 
-    <button class="search" type="search" style="background-color: black" onclick="setManualAction('/search')"
+    <button class="search" type="search" style="background-color: black" onclick="setManualAction('/search', this)"
         value="Click for popup">
         <img src="../static/images/search.png" />
     </button>
@@ -39,14 +39,14 @@
 </div>
 
 <div class="option">
-    <button id="video-button" onclick="setManualAction('/dl/video')">
+    <button id="video-button" onclick="setManualAction('/dl/video', this)">
         <img style="height: 40px; width: auto; margin-right: 2px" src="../static/images/demon1.png" alt="video" />
         video
     </button>
-    <button id="advanced-button" onclick="setManualAction('/extract')">
+    <button id="advanced-button" onclick="setManualAction('/extract', this)">
         advanced
     </button>
-    <button id="audio-button" onclick="setManualAction('/dl/audio')">
+    <button id="audio-button" onclick="setManualAction('/dl/audio', this)">
         audio
         <img style="height: 43px; width: auto; margin-left: 2px" src="../static/images/demon2.png" alt="audio" />
     </button>
@@ -62,7 +62,12 @@
         }
         var showResults = Boolean("{{show_results}}") || false; // Ensure it's a lowercase boolean
         if (showResults) {
-            showSearchResults();
+            openModal();
+        }
+        // Set "video-button" as the default selected button
+        var defaultOption = document.getElementById("video-button");
+        if (defaultOption) {
+            setManualAction('/dl/video', defaultOption);
         }
     });
 
@@ -70,23 +75,22 @@
         document.getElementById('url').value = '';
     }
 
-    var selectedOption = null;
-    function setManualAction(action) {
+    function setManualAction(action, button) {
+        // Remove the "selected" class from all buttons
+        var buttons = document.querySelectorAll('.option button');
+        buttons.forEach(function (btn) {
+            btn.classList.remove('selected');
+        });
+
+        // Set the "selected" class for the clicked button
+        button.classList.add("selected");
+
+        // Set the action for the form
         document.getElementById("download-form").action = action;
-        if (selectedOption) {
-            selectedOption.classList.remove("selected");
-        }
-        selectedOption = event.target; // Get the clicked button element
-        selectedOption.classList.add("selected");
     }
 
     function redirectToHome(url) {
         window.location.href = '/home?url=' + encodeURIComponent(url);
-    }
-
-    function handleButtonClick() {
-        // Implement your button click logic here
-        alert("Button Clicked!");
     }
 
     function openModal() {
@@ -96,11 +100,5 @@
     function closeModal() {
         document.getElementById('myModal').style.display = 'none';
     }
-
-    // Add this function to your existing script
-    function showSearchResults() {
-        openModal();
-    }
-
 </script>
 {% endblock %}

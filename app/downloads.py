@@ -3,6 +3,7 @@ from pytube import YouTube
 from moviepy.editor import VideoFileClip, AudioFileClip
 import ffmpeg
 import os
+import shutil
 from urllib.parse import unquote
 
 supported_formats = ['mp4', 'mov', 'avi', 'flv', 'm4a', 'wav', '3gp']
@@ -34,7 +35,16 @@ send_directory = 'send_videos'
 if not os.path.exists(send_directory):
     os.makedirs(send_directory)
 #end of create directories 
-    
+
+directort_list = [merge_directory, download_audio_directory, download_video_directory, send_directory]
+
+def clear_directory(directory):
+    try:
+        shutil.rmtree(directory)
+        os.makedirs(directory)
+    except Exception as e:
+        print("Error: ", e)
+
 # convert audio to mp3
 def convert_to_mp3(audio_path):
     try:
@@ -65,6 +75,8 @@ def download_video():
     print(selected_format)
     quality = request.args.get('quality')
     print(quality)
+    enTrim = request.args.get('Trim')
+    print(enTrim)
     startTime = request.args.get('startTime')
     print(startTime)
     endTime = request.args.get('endTime')
@@ -73,11 +85,11 @@ def download_video():
     # print("url: ", url)
     # print("formats: ", selected_format)
     # print("quality: ", quality)
+    
     if url:
         try:
             yt = YouTube(url)
             video_url = yt.streams.get_by_itag(quality)
-
             video_path = video_url.download(download_video_directory)
             video_clip = VideoFileClip(video_path)
             audio_path = yt.streams.get_audio_only().download(download_audio_directory)
@@ -87,17 +99,16 @@ def download_video():
             final_clip = video_clip.set_audio(audio_clip)
             full_video_path = os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path))
             # print("out_video_path: ", out_video_path)
-            final_clip.write_videofile(full_video_path)
-            clip=VideoFileClip(full_video_path) 
-            clip = clip.subclip(startTime, endTime)
-            clip.write_videofile(full_video_path)
-            os.remove(video_path)
-            os.remove(audio_path)
+            if enTrim == 'true':
+                trimmed = final_clip.subclip(startTime, endTime)
+                trimmed.write_videofile(full_video_path)
+            else:
+                final_clip.write_videofile(full_video_path)
+
             if selected_format == 'mp4':
                 return send_file(full_video_path, as_attachment=True)
             else:
                 out_video_path = convert_format(full_video_path, selected_format)
-                os.remove(full_video_path)
                 return send_file(out_video_path, as_attachment=True)
         except Exception as e:
             return f"Error: {e}"

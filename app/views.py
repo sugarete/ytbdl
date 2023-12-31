@@ -1,11 +1,9 @@
 from flask import Blueprint, render_template, request, send_file
 from pytube import YouTube,Search
-import pytube
 from urllib.parse import unquote
 from datetime import timedelta
-import re
-from flask import Flask, render_template
-
+import re, os, shutil
+from .downloads import directort_list, clear_directory
 
 views = Blueprint('views', __name__)
 
@@ -21,6 +19,7 @@ def is_url_valid(url):
         return True
     else:
         return False
+    
 @views.after_request
 def set_headers(response):
     response.headers["Referrer-Policy"] = 'no-referrer'
@@ -34,10 +33,16 @@ def home():
 # extract video info
 @views.route('/extract', methods=['POST', 'GET'])
 def extract():
+    
+    for directory in directort_list:
+        clear_directory(directory)
+
     if request.method == 'GET':
         url = request.args.get('url')
         if url:
+            print("Extracting from search")
             video = YouTube(url)
+            print("Done")
             video_id = video.video_id
             return render_template('test.html', video=video, url = url, format_time=format_time, supported_formats=supported_formats, video_id=video_id)
         else:
@@ -75,4 +80,4 @@ def search_youtube(keyword):
 
 @views.route('/test')
 def test():
-    return render_template('test.html')
+    return render_template('test2.html')
