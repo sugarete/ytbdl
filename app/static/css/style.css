@@ -243,8 +243,8 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 13px;
     line-height: 20px;
-    width: 70%;
-    height: 65vh;
+    width: 80%;
+    height: 68vh;
     display: flex;
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 10px;
@@ -254,6 +254,9 @@ body {
 .sector1 {
     width: 60%;
     height: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
 }
 
 .main-page2 .sector1 .video-sector {
@@ -265,7 +268,7 @@ body {
     /* Center content horizontally */
     align-items: center;
     flex-direction: column;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgb(255, 255, 255);
     border-top-left-radius: 10px;
     padding: 5px
 }
@@ -278,17 +281,18 @@ body {
     float: left;
     /* Center content horizontally */
     align-self: center;
-    flex-direction: column;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    flex-direction: row;
+    border: 1px solid rgb(255, 255, 255);
     border-bottom-left-radius: 10px;
 }
 .main-page2 .sector1 .cut-sector .fstcut {
-    width: 50%;
+    width: 40%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: column; 
+    padding: 5px;
 }
 
 .main-page2 .sector1 .cut-sector .extract-time {
@@ -299,6 +303,28 @@ body {
     /* Center content horizontally */
     flex-direction: row;
     color: white;
+}
+.main-page2 .sector1 .cut-sector .cutter-tittle {
+    height: 100%;
+    width: 15%;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    border: 1px solid rgba(84, 82, 82, 0.5);
+    border-bottom-left-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.main-page2 .sector1 .cut-sector .preview {
+    width: 45%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 5px;
 }
 
 .main-page2 .sector1 .cut-sector .extract-time .extract-start,
@@ -323,12 +349,15 @@ body {
     /* Center content horizontally */
     align-items: center;
     flex-direction: row;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgb(255, 255, 255);
     cursor: pointer;
     border-radius: 5px;
     background-color: rgb(44, 44, 44);
     color: white;
     margin: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    line-height: 20px;
 }
 
 
@@ -337,13 +366,16 @@ body {
     width: 90%;
     height: 65%;
     display: flex;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgb(255, 255, 255);
     border-radius: 5px;
     margin: 5px;
     padding: 5px;
     color: white;
     background: none;
     text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    line-height: 20px;
 }
 
 .main-page2 .sector1 .cut-sector .fstcut .cut-button {
@@ -364,12 +396,15 @@ body {
     justify-content: center;
     /* Center content horizontally */
     align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgb(255, 255, 255);
     cursor: pointer;
     border-radius: 5px;
     background-color: rgb(44, 44, 44);
     color: white;
     margin: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    line-height: 20px;
 }
 
 /* page 2 sector 2 */
@@ -383,8 +418,8 @@ body {
     /* Center content horizontally */
     align-items: center;
     flex-direction: column;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    padding: 10px;
+    border: 1px solid rgb(255, 255, 255);
+    padding: 5px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -393,16 +428,34 @@ body {
 .main-page2 .sector2 .qual-sector,
 .main-page2 .sector2 .format-sector {
     color: white;
-    width: 90%;
-    height: 30%;
+    width: 95%;
+    height: 25%;
     display: flex;
     /* Enable flexbox for horizontal arrangement */
     justify-content: center;
     /* Center content horizontally */
     align-items: center;
     flex-direction: column;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgb(255, 255, 255);
     border-radius: 5px;
+}
+
+.main-page2 .sector2 .result-sector {
+    height: 40%;
+}
+
+.main-page2 .sector2 .result-sector .result-head {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    background-color: rgb(44, 44, 44);
+    color: white;
+    border: 1px solid rgba(84, 82, 82, 0.5);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
 }
 
 .main-page2 .sector2 .result-sector,
@@ -412,18 +465,19 @@ body {
 
 .main-page2 .sector2 .sector-title {
     font-family: 'Roboto', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
     height: 30%;
     width: 100%;
-    background-color: rgb(44, 44, 44);
-    color: white;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     border: 1px solid rgba(84, 82, 82, 0.5);
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 5px;
 }
 
 .main-page2 .sector2 .qual-sector .quality-list,
@@ -436,10 +490,9 @@ body {
     align-items: center;
     flex-direction: row;
     padding: 5px;
-}
-
-.main-page2 .sector2 .result-sector .result-list {
-    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    line-height: 20px;
 }
 
 .main-page2 .sector2 .result-sector .result-list button {
@@ -468,9 +521,76 @@ body {
     align-items: center;
     flex-direction: row;
     cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    line-height: 20px;
 }
 
 .main-page2 .sector2 button.selected {
+    color: black;
+    background-color: #f5f5f5;
+    border-color: #000000;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);
+}
+
+.main-page2 .sector2 .result-sector .result-list {
+    flex-direction: row;
+}
+
+.main-page2 .sector2 .result-sector .result-list .thumbnail {
+    width: 42%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-page2 .sector2 .result-sector .video-info {
+    width: 28%;
+    height: 100%;
+    margin-left: 10px;
+    display: flex;
+    justify-self: center;
+    flex-direction: column;
+    padding: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.main-page2 .sector2 .result-sector .set-btn {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-self: center;
+    flex-direction: column;
+}
+
+.main-page2 .sector2 .result-sector .set-btn button {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    border: 0.5px solid rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: rgb(44, 44, 44);
+    color: white;
+    margin: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px;
+    line-height: 20px;
+}
+
+.main-page2 .sector2 .result-sector .set-btn button.selected {
+    color: black;
+    background-color: #f5f5f5;
+    border-color: #000000;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);
+}
+
+.main-page2 .sector1 .cut-sector .cut-button button.selected {
     color: black;
     background-color: #f5f5f5;
     border-color: #000000;

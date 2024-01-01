@@ -29,7 +29,7 @@
         <div class="videos-container">
             {% for video in videos[0:5] %}
             <div class="video-item" onclick="redirectToHome('{{ video.url }}')">
-                <img class="thumbnail" src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                <img syle="object-fit: contain; width: 100%; height: 100%;"class="thumbnail" src="{{ video.thumbnail }}" alt="{{ video.title }}">
                 <a href="/home?url={{ video.url }}">{{ video.title }}</a>
             </div>
             {% endfor %}
