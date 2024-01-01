@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, send_file
 from pytube import YouTube
-from .downloads import directort_list, clear_directory
+from .downloads import directory_list, clear_directory
 import os
 
 easy = Blueprint('easy', __name__)
@@ -13,7 +13,7 @@ if not os.path.exists(send_directory):
     
 @easy.route('/video', methods=['GET'])
 def download_easy_video():
-    for directory in directort_list:
+    for directory in directory_list:
         clear_directory(directory)
     url = request.args.get('url')
     if url:
@@ -26,7 +26,7 @@ def download_easy_video():
     
 @easy.route('/audio', methods=['GET'])
 def download_easy_audio():
-    for directory in directort_list:
+    for directory in directory_list:
         clear_directory(directory)
     url = request.args.get('url')
     if url:

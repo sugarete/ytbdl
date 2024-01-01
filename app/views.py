@@ -3,11 +3,11 @@ from pytube import YouTube,Search
 from urllib.parse import unquote
 from datetime import timedelta
 import re, os, shutil
-from .downloads import directort_list, clear_directory
+from .downloads import directory_list, clear_directory
 
 views = Blueprint('views', __name__)
 
-supported_formats = ['mp4', 'mov', 'avi', 'flv', 'm4a', 'wav', '3gp']
+supported_formats = ['mp4', 'mov', 'avi', 'flv', 'dash', 'mpeg']
 
 # time format from seconds to HH:MM:SS
 def format_time(seconds):
@@ -28,21 +28,21 @@ def set_headers(response):
 # main page routes
 @views.route('/')
 def home():
+    for directory in directory_list:
+        clear_directory(directory)
     return render_template("home.html")
 
 # extract video info
 @views.route('/extract', methods=['POST', 'GET'])
 def extract():
     
-    for directory in directort_list:
+    for directory in directory_list:
         clear_directory(directory)
 
     if request.method == 'GET':
         url = request.args.get('url')
         if url:
-            print("Extracting from search")
             video = YouTube(url)
-            print("Done")
             video_id = video.video_id
             return render_template('test.html', video=video, url = url, format_time=format_time, supported_formats=supported_formats, video_id=video_id)
         else:
