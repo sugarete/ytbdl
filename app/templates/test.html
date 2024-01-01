@@ -6,35 +6,52 @@
             <div id="player"></div>
         </div>
         <div class="cut-sector">
+            <p class="cutter-tittle">YouTube <br> Trimmer</p>
             <div class="fstcut">
                 <div class="extract-time">
                     <!-- <p>Please use Input form if Video Unavailable</p> -->
                     <div class="extract-start">
-                        <button onclick="getStartTime()">start</button>
+                        <button onclick="getStartTime()">set start point</button>
                         <div style="color: white; display:none;" id="StartTime"></div>
-                        <input type="text" id="startTimeInput" oninput="updateStartTime()" placeholder="Enter Start Time" />
+                        <input type="text" id="startTimeInput" oninput="updateStartTime()" placeholder="HH:MM:SS" />
                     </div>
                     <div class="extract-end">
-                        <button onclick="getEndTime()">end</button>
+                        <button onclick="getEndTime()">set end point</button>
                         <div style="color: white; display:none;" id="EndTime"></div>
-                        <input type="text" id="endTimeInput" oninput="updateEndTime()" placeholder="Enter End Time" />
+                        <input type="text" id="endTimeInput" oninput="updateEndTime()" placeholder="HH:MM:SS" />
                     </div>
                 </div>
                 <div class="cut-button">
-                    <button onclick="check_cut_condition()">Trim Comfirm</button>
+                    <button id="trim-btn" onclick="check_cut_condition()">Trim Comfirm</button>
                 </div>
+            </div>
+            <div class="preview">
+
             </div>
         </div>
     </div>
     <div class="sector2">
         <div class="result-sector">
-            <p class="sector-title">Result</p>
+            <div class="result-head">
+                <p class="sector-title" style="width: 80%; height: 100%; border: none; border-top-right-radius: 0px; border-top-left-radius: 5px">{{video.title}}</p>
+                <a href="/" style="width:20%; height: 100%; color: white; display: flex; justify-content: center; align-items: center; background-color: rgb(63, 58, 203); border-top-right-radius: 5px">Return</a>
+            </div>
             <div class="result-list">
-                <form id="downloadForm" action="{{ url_for('downloads.download_video', url=url) }}" method="get">
-                    <input type="hidden" id="startTimeField" name="startTime" value="" />
-                    <input type="hidden" id="endTimeField" name="endTime" value="" />
-
-                    <button type="button" onclick="submitDownload()">Download</button>
+                <div class="thumbnail">
+                    <img style="object-fit: contain; width: 100%; height: 100%;" src="https://img.youtube.com/vi/{{video.video_id}}/maxresdefault.jpg" alt="{{ video.title }}">
+                </div>
+                <div class="video-info">
+                    <p>Author: {{video.author}}</p>
+                    <p id="vidLength">Length: {{format_time(video.length)}}</p>
+                    <p id="audioOnly">Audio Only: No</p>
+                    <p id="videoOnly">Video Only: No</p>
+                    <p id="Trimmed">Trimmed: No</p>
+                </div>
+                <form class="set-btn" id="downloadForm" action="{{ url_for('downloads.download_video', url=url) }}"
+                    method="get">
+                    <button type="button" id="AuOnlyBtn" style="height: 20%; width: 90%" onclick="setAudioOnly()">Audio Only</button>
+                    <button type="button" id="VidOnlyBtn" style="height: 20%; width: 90%" onclick="setVideoOnly()">Video Only</button>
+                    <button type="button" style="height: 50%; width: 90%; background-color: rgb(255, 9, 9); color: rgb(249, 249, 249); font-size: 15px; border: black" onclick="submitDownload()">Download</button>
                 </form>
             </div>
         </div>
@@ -50,7 +67,7 @@
             </div>
         </div>
         <div class="format-sector">
-            <p class="sector-title">Select Format: </p>
+            <p class="sector-title">Select Format</p>
             <div class="format-list">
                 {% for format in supported_formats %}
                 <button value="{{ format }}" onclick="selectFormat(this)">
@@ -92,8 +109,13 @@
     }
     //Download_handler
     function submitDownload() {
-        if (selectedQuality) {
-            var qualityValue = selectedQuality.value;
+
+        if (selectedQuality != null || audio_only == true ) {
+            if (selectedQuality == null) {
+                qualityValue = null;
+            } else {
+                qualityValue = selectedQuality.value;
+            }
             var formatValue = selectedFormat.value;
             var downloadUrl =
                 "{{ url_for('downloads.download_video', url=url, format='__format__', quality='__quality__') }}";
@@ -101,17 +123,55 @@
                 .replace("__format__", formatValue)
                 .replace("__quality__", qualityValue);
             downloadUrl +=
-                "&Trim=" + enTrim + "&startTime=" + startTime + "&endTime=" + endTime;
+                "&Trim=" + enTrim + "&startTime=" + startTime + "&endTime=" + endTime + "&video_only=" + video_only + "&audio_only=" + audio_only;
             downloadUrl = downloadUrl.replaceAll("&amp;", "&");
             window.location.href = downloadUrl;
         } else {
             alert("Please select quality.");
         }
     }
+    var video_only = false;
+    var audio_only = false;
+    function setVideoOnly() {
+        if(video_only == true) { 
+            video_only = false;
+            document.getElementById("videoOnly").innerHTML = "VideoOnly: No";
+            document.getElementById("VidOnlyBtn").classList.remove("selected");
+        } else {
+            video_only = true;
+            audio_only = false;
+            enTrim = false;
+            document.getElementById("videoOnly").innerHTML = "VideoOnly: Yes";
+            document.getElementById("audioOnly").innerHTML = "AudioOnly: No";
+            document.getElementById("Trimmed").innerHTML = "Trimmed: No";
+            document.getElementById("VidOnlyBtn").classList.add("selected");
+            document.getElementById("AuOnlyBtn").classList.remove("selected");
+            document.getElementById("trim-btn").classList.remove("selected");
+        }
+    }
+    
+    function setAudioOnly() {
+        if(audio_only == true) { 
+            audio_only = false;
+            document.getElementById("audioOnly").innerHTML = "AudioOnly: No";
+            document.getElementById("AuOnlyBtn").classList.remove("selected");
+        } else {
+            audio_only = true;
+            video_only = false;
+            enTrim = false;
+            document.getElementById("audioOnly").innerHTML = "AudioOnly: Yes";
+            document.getElementById("videoOnly").innerHTML = "VideoOnly: No";
+            document.getElementById("Trimmed").innerHTML = "Trimmed: No";
+            document.getElementById("AuOnlyBtn").classList.add("selected");
+            document.getElementById("VidOnlyBtn").classList.remove("selected");
+            document.getElementById("trim-btn").classList.remove("selected");
+        }
+    }
+
     // Function to create and initialize the YouTube player
     var player;
-    var startTime = null;
-    var endTime = null;
+    var startTime = 0;
+    var endTime = 0;
     var enTrim = false;
     function onYouTubeIframeAPIReady() {
         console.log("YouTube API ready");
@@ -131,8 +191,7 @@
         });
     }
     function getCurrentTime() {
-        var currentTime = player.getCurrentTime().toFixed(1);
-        console.log(currentTime);
+        var currentTime = player.getCurrentTime().toFixed(0);
         return currentTime;
     }
 
@@ -143,14 +202,18 @@
     function getStartTime() {
         startTime = getCurrentTime();
         document.getElementById("StartTime").innerHTML = startTime;
-        document.getElementById("startTimeInput").value = startTime;
-        console.log(startTime);
+        document.getElementById("startTimeInput").value = secondsToHMS(startTime);
+        updateTrim();
+        console.log("starttime" + startTime);
+        console.log("endtime" + endTime);
     }
     function getEndTime() {
         endTime = getCurrentTime();
         document.getElementById("EndTime").innerHTML = endTime;
-        document.getElementById("endTimeInput").value = endTime;
-        console.log(EndTime);
+        document.getElementById("endTimeInput").value = secondsToHMS(endTime);
+        updateTrim();
+        console.log("endtime" + endTime);
+        console.log("starttime" + startTime);
     }
     function updateStartTime() {
         startTime = parseFloat(document.getElementById("startTimeInput").value) || 0;
@@ -164,17 +227,59 @@
         console.log(endTime);
     }
     function check_cut_condition() {
-        if (startTime == null || endTime == null) {
+        if ( startTime === 0 && endTime === 0) {
             window.alert("Please select start and end time");
         } else {
-            if (endTime <= startTime) {
-                window.alert("End time must be greater than start time");
-            } else {
-                enTrim = true;
-                window.alert("Set Trim");
+            if(enTrim == true) {
+                enTrim = false;
+                document.getElementById("Trimmed").innerHTML = "Trimmed: No";
+                document.getElementById("audioOnly").innerHTML = "AudioOnly: No";
+                document.getElementById("videoOnly").innerHTML = "VideoOnly: No";
+                document.getElementById("vidLength").innerHTML = "Length: {{format_time(video.length)}}"
+                document.getElementById("trim-btn").classList.remove("selected");
+            } else if(enTrim == false) {
+                console.log("start: " + startTime + " end: " + endTime)
+                if(parseInt(endTime) > parseInt(startTime)) {
+                    enTrim = true;
+                    video_only = false;
+                    audio_only = false;
+                    console.log("start: " + startTime + " end: " + endTime)
+                    document.getElementById("Trimmed").innerHTML = "Trimmed: Yes";
+                    document.getElementById("audioOnly").innerHTML = "AudioOnly: No";
+                    document.getElementById("videoOnly").innerHTML = "VideoOnly: No";
+                    document.getElementById("vidLength").innerHTML = "Length: " + secondsToHMS(endTime - startTime);
+                    document.getElementById("trim-btn").classList.add("selected");
+                    document.getElementById("AuOnlyBtn").classList.remove("selected");
+                    document.getElementById("VidOnlyBtn").classList.remove("selected");
+                } else {
+                    console.log("start: " + startTime + " end: " + endTime)
+                    window.alert("End time must be greater than start time");
+                }
             }
         }
     }
+
+    function updateTrim() {
+        if(enTrim == true) {
+            enTrim = false;
+            document.getElementById("Trimmed").innerHTML = "Trimmed: No";
+            document.getElementById("trim-btn").classList.remove("selected");
+        } 
+    }
+
+    function secondsToHMS(seconds) {
+        var hours = Math.floor(seconds / 3600);
+        var minutes = Math.floor((seconds % 3600) / 60);
+        var remainingSeconds = Math.floor(seconds % 60);
+    
+        // Add leading zeros if needed
+        hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        remainingSeconds = (remainingSeconds < 10) ? "0" + remainingSeconds : remainingSeconds;
+    
+        return hours + ":" + minutes + ":" + remainingSeconds;
+    }
+    
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 

@@ -81,21 +81,29 @@ def download_video():
     print(startTime)
     endTime = request.args.get('endTime')
     print(endTime)
-
-    # print("url: ", url)
-    # print("formats: ", selected_format)
-    # print("quality: ", quality)
+    video_only = request.args.get('video_only')
+    print(video_only)
+    audio_only = request.args.get('audio_only')
+    print(audio_only)
     
     if url:
         try:
             yt = YouTube(url)
+            audio_path = yt.streams.get_audio_only().download(download_audio_directory)
+            audio_clip = AudioFileClip(audio_path)
+
+            if(audio_only == 'true'):
+                out_audio_path = convert_to_mp3(audio_path)
+                return send_file(out_audio_path, as_attachment=True)
+            
             video_url = yt.streams.get_by_itag(quality)
             video_path = video_url.download(download_video_directory)
             video_clip = VideoFileClip(video_path)
-            audio_path = yt.streams.get_audio_only().download(download_audio_directory)
-            audio_clip = AudioFileClip(audio_path)
-            # print("audio_path: ", audio_path)
-            # print("video_path: ", video_path)
+            
+            if(video_only == 'true'):
+                out_video_path = convert_format(video_path, selected_format)
+                return send_file(out_video_path, as_attachment=True)
+
             final_clip = video_clip.set_audio(audio_clip)
             full_video_path = os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path))
             # print("out_video_path: ", out_video_path)
