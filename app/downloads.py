@@ -84,8 +84,8 @@ def download_video():
             if(enTrim == 'true'):
                 audio_segment = audio_segment[int(startTime)*1000:int(endTime)*1000]
                 out_audio_path = os.path.join(os.getcwd(), send_directory, os.path.basename(audio_path)[:-4] + '.mp3')
+                audio_segment.export(out_audio_path, format="mp3")
                 if(audio_only == 'true'):
-                    audio_segment.export(out_audio_path, format="mp3")
                     return send_file(out_audio_path, as_attachment=True)
                 else:
                     video_path = yt.streams.get_by_itag(quality).download(output_path=download_video_directory)
@@ -93,15 +93,12 @@ def download_video():
                     out_video_path = os.path.join(os.getcwd(), send_directory, os.path.basename(video_path)[:-4] + '.mp4')
                     video_clip.write_videofile(out_video_path)
                     full_video_path = merge_video(video_path, out_audio_path, os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path)[:-4] + '.mp4'))
-                    if (format != 'mp4'):
-                        if(video_only == 'true'):
-                            converted_video_path = convert_format(out_video_path, selected_format)
-                            return send_file(converted_video_path, as_attachment=True)
-                        else:
-                            converted_full_video_path = convert_format(full_video_path, selected_format)
-                            return send_file(converted_full_video_path, as_attachment=True)
+                    if(video_only == 'true'):
+                        converted_video_path = convert_format(out_video_path, selected_format)
+                        return send_file(converted_video_path, as_attachment=True)
                     else:
-                        return send_file(full_video_path, as_attachment=True)
+                        converted_full_video_path = convert_format(full_video_path, selected_format)
+                        return send_file(converted_full_video_path, as_attachment=True)
             else:
                 if(audio_only == 'true'):
                     out_audio_path = os.path.join(os.getcwd(), send_directory, os.path.basename(audio_path)[:-4] + '.mp3')
@@ -109,18 +106,13 @@ def download_video():
                     return send_file(out_audio_path, as_attachment=True)
                 else:
                     video_path = yt.streams.get_by_itag(quality).download(output_path=download_video_directory)
-                    out_video_path = os.path.join(os.getcwd(), send_directory, os.path.basename(video_path)[:-4] + '.mp4')
-                    shutil.copyfile(video_path, out_video_path)
                     full_video_path = merge_video(video_path, audio_path, os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path)[:-4] + '.mp4'))
-                    if (format != 'mp4'):
-                        if(video_only == 'true'):
-                            converted_video_path = convert_format(out_video_path, selected_format)
-                            return send_file(converted_video_path, as_attachment=True)
-                        else:
-                            converted_full_video_path = convert_format(full_video_path, selected_format)
-                            return send_file(converted_full_video_path, as_attachment=True)
+                    if(video_only == 'true'):
+                        converted_video_path = convert_format(video_path, selected_format)
+                        return send_file(converted_video_path, as_attachment=True)
                     else:
-                        return send_file(full_video_path, as_attachment=True)
+                        converted_full_video_path = convert_format(full_video_path, selected_format)
+                        return send_file(converted_full_video_path, as_attachment=True)
         except Exception as e:
             return f"Error: {e}"
     else:
