@@ -4,6 +4,7 @@ from urllib.parse import unquote
 from datetime import timedelta
 import re, os, shutil
 from .downloads import directory_list, clear_directory
+from .connect_db import write_history, get_now, get_history
 
 views = Blueprint('views', __name__)
 
@@ -32,7 +33,7 @@ def home():
         clear_directory(directory)
     username = session.get('username')
     print(username)
-    return render_template("home.html", username=username)
+    return render_template("home.html", username=username, history = get_history("select time, link, videoname from history where username = ?", (username,)))
 
 @views.route('/login')
 def login():
@@ -54,7 +55,10 @@ def extract():
         url = request.args.get('url')
         if url:
             video = YouTube(url)
-            video_id = video.video_id
+            if session.get('username') is not None:
+                sql = "insert into history (time, link, username, videoname) values (?, ?, ?, ?)"
+                write_history(sql, (get_now(), url, session.get('username'), video.title))
+                video_id = video.video_id
             return render_template('test.html', video=video, url = url, format_time=format_time, supported_formats=supported_formats, video_id=video_id)
         else:
             return "Invalid URL."
