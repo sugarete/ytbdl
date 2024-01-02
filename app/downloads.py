@@ -92,11 +92,11 @@ def download_video():
                     video_clip = VideoFileClip(video_path).subclip(int(startTime), int(endTime))
                     out_video_path = os.path.join(os.getcwd(), send_directory, os.path.basename(video_path)[:-4] + '.mp4')
                     video_clip.write_videofile(out_video_path)
-                    full_video_path = merge_video(video_path, out_audio_path, os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path)[:-4] + '.mp4'))
                     if(video_only == 'true'):
                         converted_video_path = convert_format(out_video_path, selected_format)
                         return send_file(converted_video_path, as_attachment=True)
                     else:
+                        full_video_path = merge_video(out_video_path, out_audio_path, os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path)[:-4] + '.mp4'))
                         converted_full_video_path = convert_format(full_video_path, selected_format)
                         return send_file(converted_full_video_path, as_attachment=True)
             else:
@@ -106,11 +106,11 @@ def download_video():
                     return send_file(out_audio_path, as_attachment=True)
                 else:
                     video_path = yt.streams.get_by_itag(quality).download(output_path=download_video_directory)
-                    full_video_path = merge_video(video_path, audio_path, os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path)[:-4] + '.mp4'))
                     if(video_only == 'true'):
                         converted_video_path = convert_format(video_path, selected_format)
                         return send_file(converted_video_path, as_attachment=True)
                     else:
+                        full_video_path = merge_video(video_path, audio_path, os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path)[:-4] + '.mp4'))
                         converted_full_video_path = convert_format(full_video_path, selected_format)
                         return send_file(converted_full_video_path, as_attachment=True)
         except Exception as e:
