@@ -83,7 +83,6 @@
 </div>
 
 <script>
-
     // Set default values for format 
     document.addEventListener('DOMContentLoaded', function () {
         // Set default format (mp4)
@@ -143,16 +142,12 @@
         } else {
             video_only = true;
             audio_only = false;
-            enTrim = false;
             document.getElementById("videoOnly").innerHTML = "VideoOnly: Yes";
             document.getElementById("audioOnly").innerHTML = "AudioOnly: No";
-            document.getElementById("Trimmed").innerHTML = "Trimmed: No";
             document.getElementById("VidOnlyBtn").classList.add("selected");
             document.getElementById("AuOnlyBtn").classList.remove("selected");
-            document.getElementById("trim-btn").classList.remove("selected");
         }
     }
-    
     function setAudioOnly() {
         if(audio_only == true) { 
             audio_only = false;
@@ -161,16 +156,12 @@
         } else {
             audio_only = true;
             video_only = false;
-            enTrim = false;
             document.getElementById("audioOnly").innerHTML = "AudioOnly: Yes";
             document.getElementById("videoOnly").innerHTML = "VideoOnly: No";
-            document.getElementById("Trimmed").innerHTML = "Trimmed: No";
             document.getElementById("AuOnlyBtn").classList.add("selected");
             document.getElementById("VidOnlyBtn").classList.remove("selected");
-            document.getElementById("trim-btn").classList.remove("selected");
         }
     }
-
     // Function to create and initialize the YouTube player
     var player;
     var startTime = 0;
@@ -236,8 +227,6 @@
             if(enTrim == true) {
                 enTrim = false;
                 document.getElementById("Trimmed").innerHTML = "Trimmed: No";
-                document.getElementById("audioOnly").innerHTML = "AudioOnly: No";
-                document.getElementById("videoOnly").innerHTML = "VideoOnly: No";
                 document.getElementById("vidLength").innerHTML = "Length: {{format_time(video.length)}}"
                 document.getElementById("trim-btn").classList.remove("selected");
                 dis_play(false);
@@ -245,16 +234,10 @@
                 console.log("start: " + startTime + " end: " + endTime)
                 if(parseInt(endTime) > parseInt(startTime)) {
                     enTrim = true;
-                    video_only = false;
-                    audio_only = false;
                     console.log("start: " + startTime + " end: " + endTime)
                     document.getElementById("Trimmed").innerHTML = "Trimmed: Yes";
-                    document.getElementById("audioOnly").innerHTML = "AudioOnly: No";
-                    document.getElementById("videoOnly").innerHTML = "VideoOnly: No";
                     document.getElementById("vidLength").innerHTML = "Length: " + secondsToHMS(endTime - startTime);
                     document.getElementById("trim-btn").classList.add("selected");
-                    document.getElementById("AuOnlyBtn").classList.remove("selected");
-                    document.getElementById("VidOnlyBtn").classList.remove("selected");
                     dis_play(true);
                 } else {
                     console.log("start: " + startTime + " end: " + endTime)

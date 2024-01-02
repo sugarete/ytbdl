@@ -1,12 +1,9 @@
 from flask import Blueprint, render_template, request, send_file
 from pytube import YouTube
 from moviepy.editor import VideoFileClip, AudioFileClip
-import ffmpeg
-import os
-import shutil
+from pydub import AudioSegment
+import ffmpeg, os, shutil
 from urllib.parse import unquote
-
-supported_formats = ['mp4', 'mov', 'avi', 'flv', 'm4a', 'wav', '3gp']
 
 downloads = Blueprint('downloads', __name__)
 
@@ -36,7 +33,7 @@ if not os.path.exists(send_directory):
     os.makedirs(send_directory)
 #end of create directories 
 
-directort_list = [merge_directory, download_audio_directory, download_video_directory, send_directory]
+directory_list = [merge_directory, download_audio_directory, download_video_directory, send_directory]
 
 def clear_directory(directory):
     try:
@@ -45,100 +42,79 @@ def clear_directory(directory):
     except Exception as e:
         print("Error: ", e)
 
-# convert audio to mp3
-def convert_to_mp3(audio_path):
-    try:
-        out_audio_path = os.path.join(os.getcwd(), send_directory, os.path.basename(audio_path)[:-4] + '.mp3')
-        ffmpeg.input(audio_path).output(out_audio_path).run(overwrite_output=True)
-        return out_audio_path
-    except Exception as e:
-        print("Error: ", e)
-        return None
-
 # convert video to selected format
 def convert_format(video_path, video_format):
     try:
-        out_video_path = os.path.join(os.getcwd(), send_directory, os.path.basename(video_path)[:-4] + '.' + video_format)
+        out_video_path = os.path.join(os.getcwd(), download_video_directory, os.path.basename(video_path)[:-4] + '.' + video_format)
         ffmpeg.input(video_path).output(out_video_path, format = video_format).run(overwrite_output=True)
         return out_video_path
     except Exception as e:
         print("Error: ", e)
         return None
     
+def merge_video(video_path, audio_path, output_path):
+    try:
+        video = VideoFileClip(video_path)
+        audio = AudioFileClip(audio_path)
+        video = video.set_audio(audio)
+        video.write_videofile(output_path)
+        return output_path
+    except Exception as e:
+        print("Error: ", e)
+        return None
+
 # download video
 @downloads.route('/download_video', methods=['GET'])
 def download_video():
     print("request.args: ", request.args)
     url = unquote(request.args.get('url'))
-    print(url)
     selected_format = request.args.get('format')
-    print(selected_format)
     quality = request.args.get('quality')
-    print(quality)
     enTrim = request.args.get('Trim')
-    print(enTrim)
     startTime = request.args.get('startTime')
-    print(startTime)
     endTime = request.args.get('endTime')
-    print(endTime)
     video_only = request.args.get('video_only')
-    print(video_only)
     audio_only = request.args.get('audio_only')
-    print(audio_only)
-    
+    print("url: ", url + " selected_format: " + selected_format + " quality: " + quality + " enTrim: " + enTrim + " startTime: " + startTime + " endTime: " + endTime + " video_only: " + video_only + " audio_only: " + audio_only )
     if url:
         try:
             yt = YouTube(url)
-            audio_path = yt.streams.get_audio_only().download(download_audio_directory)
-            audio_clip = AudioFileClip(audio_path)
-
-            if(audio_only == 'true'):
-                out_audio_path = convert_to_mp3(audio_path)
-                return send_file(out_audio_path, as_attachment=True)
-            
-            video_url = yt.streams.get_by_itag(quality)
-            video_path = video_url.download(download_video_directory)
-            video_clip = VideoFileClip(video_path)
-            
-            if(video_only == 'true'):
-                out_video_path = convert_format(video_path, selected_format)
-                return send_file(out_video_path, as_attachment=True)
-
-            final_clip = video_clip.set_audio(audio_clip)
-            full_video_path = os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path))
-            # print("out_video_path: ", out_video_path)
-            if enTrim == 'true':
-                trimmed = final_clip.subclip(startTime, endTime)
-                trimmed.write_videofile(full_video_path)
+            audio_path = yt.streams.get_audio_only().download(output_path=download_audio_directory)
+            audio_segment = AudioSegment.from_file(audio_path)  
+            if(enTrim == 'true'):
+                audio_segment = audio_segment[int(startTime)*1000:int(endTime)*1000]
+                out_audio_path = os.path.join(os.getcwd(), send_directory, os.path.basename(audio_path)[:-4] + '.mp3')
+                audio_segment.export(out_audio_path, format="mp3")
+                if(audio_only == 'true'):
+                    return send_file(out_audio_path, as_attachment=True)
+                else:
+                    video_path = yt.streams.get_by_itag(quality).download(output_path=download_video_directory)
+                    video_clip = VideoFileClip(video_path).subclip(int(startTime), int(endTime))
+                    out_video_path = os.path.join(os.getcwd(), send_directory, os.path.basename(video_path)[:-4] + '.mp4')
+                    video_clip.write_videofile(out_video_path)
+                    full_video_path = merge_video(video_path, out_audio_path, os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path)[:-4] + '.mp4'))
+                    if(video_only == 'true'):
+                        converted_video_path = convert_format(out_video_path, selected_format)
+                        return send_file(converted_video_path, as_attachment=True)
+                    else:
+                        converted_full_video_path = convert_format(full_video_path, selected_format)
+                        return send_file(converted_full_video_path, as_attachment=True)
             else:
-                final_clip.write_videofile(full_video_path)
-
-            if selected_format == 'mp4':
-                return send_file(full_video_path, as_attachment=True)
-            else:
-                out_video_path = convert_format(full_video_path, selected_format)
-                return send_file(out_video_path, as_attachment=True)
+                if(audio_only == 'true'):
+                    out_audio_path = os.path.join(os.getcwd(), send_directory, os.path.basename(audio_path)[:-4] + '.mp3')
+                    audio_segment.export(out_audio_path, format="mp3")
+                    return send_file(out_audio_path, as_attachment=True)
+                else:
+                    video_path = yt.streams.get_by_itag(quality).download(output_path=download_video_directory)
+                    full_video_path = merge_video(video_path, audio_path, os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path)[:-4] + '.mp4'))
+                    if(video_only == 'true'):
+                        converted_video_path = convert_format(video_path, selected_format)
+                        return send_file(converted_video_path, as_attachment=True)
+                    else:
+                        converted_full_video_path = convert_format(full_video_path, selected_format)
+                        return send_file(converted_full_video_path, as_attachment=True)
         except Exception as e:
             return f"Error: {e}"
     else:
         return "Invalid URL"
 
-# download audio only
-@downloads.route('/download_audio', methods=['GET'])
-def download_audio():
-    url = request.args.get('url')
-    if url:
-        try:
-            video = YouTube(url)
-            audio = video.streams.get_audio_only()
-            audio_path = audio.download(download_audio_directory)
-            out_audio_path = convert_to_mp3(audio_path)
-            if out_audio_path:
-                response = send_file(out_audio_path, as_attachment=True)
-                os.remove(audio_path)
-                return response
-            else:
-                return "Audio conversion failed."
-        except Exception as e:
-            return f"Error: {e}"
-    return "Invalid URL."
