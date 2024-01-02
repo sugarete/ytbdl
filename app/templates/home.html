@@ -38,9 +38,49 @@
     </div>
 </div>
 
+<div class="UserPage" id="UserPage" style="display: none">
+    <div class="UserPage-content">
+        <span class="close" onclick="document.getElementById('UserPage').style.display = 'none';">&times;</span>
+        <div class="Userpage-header">
+            <h2 style="margin-bottom: 10px">User Page</h2>
+        </div>
+        {% if username == None %}
+        <div class="login-page" style="display: none;">
+            <form class="login-form" action="/auth/login" method="POST">
+                <input type="text" name="username" placeholder="username" />
+                <input type="password" name="password" placeholder="password" />
+                <button type="submit">login</button>
+                <button type="button" onclick="document.getElementById('log-btn').style.display = 'block'; document.getElementsByClassName('login-page')[0].style.display = 'none';">cancel</button>
+            </form> 
+        </div>
+        <div class="register-page" style="display: none;">
+            <form class="register-form" action="/auth/register" method="POST">
+                <input type="text" name="username" placeholder="username" />
+                <input type="password" name="password" placeholder="password" />
+                <input type="password" name="confirm_password" placeholder="confirm password" />
+                <button type="submit">register</button>
+                <button type="button" onclick="document.getElementById('log-btn').style.display = 'block'; document.getElementsByClassName('register-page')[0].style.display = 'none';">cancel</button>
+            </form>
+        </div>
+        <div class="login-register" id="log-btn">
+            <button onclick="document.getElementById('log-btn').style.display = 'none'; document.getElementsByClassName('login-page')[0].style.display = 'block';">login</button>
+            <button onclick="document.getElementById('log-btn').style.display = 'none'; document.getElementsByClassName('register-page')[0].style.display = 'block';">register</button>
+        </div>
+        {% else %}
+        <div class="user-info">
+            <h3>Username: {{ username }}</h3>
+            <a href="/auth/logout">logout</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
 <div class="option">
+    <button type="button" style="margin-right: 20px; border-radius: 10px" onclick="OpenUserPage()"> 
+        <img src="../static/images/user.png" alt="user" />
+    </button>
     <button id="video-button" onclick="setManualAction('/dl/video', this)">
-        <img style="height: 40px; width: auto; margin-right: 2px" src="../static/images/demon1.png" alt="video" />
+        <img style="height: 40px; width: auto; margin-right: 2px; margin-left: 10px" src="../static/images/demon1.png" alt="video" />
         video
     </button>
     <button id="advanced-button" onclick="setManualAction('/extract', this)">
@@ -99,6 +139,15 @@
 
     function closeModal() {
         document.getElementById('myModal').style.display = 'none';
+    }
+
+    function OpenUserPage() {
+        var x = document.getElementById("UserPage");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
     }
 </script>
 {% endblock %}

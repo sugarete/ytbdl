@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, send_file
+from flask import Blueprint, render_template, request, send_file,session
 from pytube import YouTube,Search
 from urllib.parse import unquote
 from datetime import timedelta
@@ -30,7 +30,18 @@ def set_headers(response):
 def home():
     for directory in directory_list:
         clear_directory(directory)
-    return render_template("home.html")
+    username = session.get('username')
+    print(username)
+    return render_template("home.html", username=username)
+
+@views.route('/login')
+def login():
+    return render_template("login.html")
+
+@views.route('/register')
+def register():
+    return render_template("register.html")
+
 
 # extract video info
 @views.route('/extract', methods=['POST', 'GET'])

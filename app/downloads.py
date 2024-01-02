@@ -80,6 +80,7 @@ def download_video():
         try:
             yt = YouTube(url)
             audio_path = yt.streams.get_audio_only().download(output_path=download_audio_directory)
+            print("audio_path: ", audio_path)
             audio_segment = AudioSegment.from_file(audio_path)  
             if(enTrim == 'true'):
                 audio_segment = audio_segment[int(startTime)*1000:int(endTime)*1000]
