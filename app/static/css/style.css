@@ -158,6 +158,7 @@ body {
     border-left: none;
     border-right: none;
 }
+
 /* pop up search page */
 .modal,
 .UserPage {
@@ -194,7 +195,7 @@ body {
 .UserPage-content .register-form,
 .UserPage-content .login-register {
     width: 100%;
-    height: 40vh;
+    height: 50vh;
     display: flex;
     /* Enable flexbox for horizontal arrangement */
     justify-content: center;
@@ -220,6 +221,7 @@ body {
     justify-content: space-between;
     flex-direction: row;
 }
+
 .UserPage-content .login-form button,
 .UserPage-content .register-form button {
     width: 90%;
@@ -230,7 +232,7 @@ body {
     /* Center content horizontally */
     align-items: center;
     flex-direction: row;
-    border: 1px solid rgb(255, 255, 255);   
+    border: 1px solid rgb(255, 255, 255);
     cursor: pointer;
     border-radius: 5px;
     background-color: rgb(44, 44, 44);
@@ -250,7 +252,7 @@ body {
     /* Center content horizontally */
     align-items: center;
     flex: 1;
-    border: 1px solid rgb(255, 255, 255);   
+    border: 1px solid rgb(255, 255, 255);
     cursor: pointer;
     border-radius: 5px;
     background-color: rgb(44, 44, 44);
@@ -335,6 +337,21 @@ body {
     object-fit: contain;
 }
 
+.logout-btn {
+    width: 100%;
+    height: 5vh;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: rgb(186, 1, 1);
+}
+
 /* video info style */
 .main-page2 {
     font-family: 'Roboto', sans-serif;
@@ -382,13 +399,14 @@ body {
     border: 1px solid rgb(255, 255, 255);
     border-bottom-left-radius: 10px;
 }
+
 .main-page2 .sector1 .cut-sector .fstcut {
     width: 40%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column; 
+    flex-direction: column;
     padding: 5px;
 }
 
@@ -401,6 +419,7 @@ body {
     flex-direction: row;
     color: white;
 }
+
 .main-page2 .sector1 .cut-sector .cutter-tittle {
     height: 100%;
     width: 15%;
@@ -679,4 +698,3 @@ body {
     border-color: #000000;
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);
 }
-

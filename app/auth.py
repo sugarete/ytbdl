@@ -28,7 +28,7 @@ def logout():
 def register():
     username = request.form.get('username')
     password = request.form.get('password')
-    retype_password = request.form.get('retype_password')
+    retype_password = request.form.get('confirm_password')
     if password != retype_password:
         print("password not match")
         return redirect(url_for('views.home'))
