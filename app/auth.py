@@ -9,12 +9,13 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
     print(username)
+    print(password)
     check_login = check("select * from users where username = ? and password = ?", (username,password))
     if check_login:
-        print("login fail")
-        return redirect(url_for('views.login'))
+        print("Password or username is incorrect")
+        return redirect(url_for('views.home'))
     else:
-        print("login success")
+        flash("Login successful")
         session['username'] = username
         return redirect(url_for('views.home'))
 
@@ -27,6 +28,10 @@ def logout():
 def register():
     username = request.form.get('username')
     password = request.form.get('password')
+    retype_password = request.form.get('retype_password')
+    if password != retype_password:
+        print("password not match")
+        return redirect(url_for('views.home'))
     print(username)
     check_username = check("select * from users where username = ?", (username,))
     if check_username:
