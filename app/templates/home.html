@@ -41,16 +41,20 @@
 
 <div class="UserPage" id="UserPage" style="display: none">
     <div class="UserPage-content">
-        <span class="close" onclick="document.getElementById('UserPage').style.display = 'none';">&times;</span>
-        <div class="Userpage-header">
-            <h2 style="margin-bottom: 10px">User Page</h2>
+        <div class="Userpage-header" style="margin-left: 5px;">
+            {% if username == None %}
+                <h2>User: Not Logged In</h2>
+            {% else %}
+                <h2>{{ username }}'s history</h2>
+            {% endif %}
+            <span class="close" onclick="document.getElementById('UserPage').style.display = 'none';">&times;</span>
         </div>
         {% if username == None %}
         <div class="login-page" style="display: none;">
             <form class="login-form" action="/auth/login" method="POST">
                 <input type="text" name="username" placeholder="username" required/>
                 <input type="password" name="password" placeholder="password" required/>
-                <button type="submit">login</button>
+                <button style="height: 100%; background: white; color: black" type="submit">login</button>
                 <button type="button"
                     onclick="document.getElementById('log-btn').style.display = 'flex'; document.getElementsByClassName('login-page')[0].style.display = 'none';">cancel</button>
             </form>
@@ -60,24 +64,24 @@
                 <input type="text" name="username" placeholder="username" required/>
                 <input type="password" name="password" placeholder="password" required/>
                 <input type="password" name="confirm_password" placeholder="confirm password" required/>
-                <button type="submit">register</button>
+                <button style="height: 100%; background: white; color: black"type="submit">register</button>
                 <button type="button"
                     onclick="document.getElementById('log-btn').style.display = 'flex'; document.getElementsByClassName('register-page')[0].style.display = 'none';">cancel</button>
             </form>
         </div>
         <div class="login-register" id="log-btn">
             <button
-                onclick="document.getElementById('log-btn').style.display = 'none'; document.getElementsByClassName('login-page')[0].style.display = 'block';">login</button>
+                onclick="document.getElementById('log-btn').style.display = 'none'; document.getElementsByClassName('login-page')[0].style.display = 'flex';">login</button>
             <button
-                onclick="document.getElementById('log-btn').style.display = 'none'; document.getElementsByClassName('register-page')[0].style.display = 'block';">register</button>
+                onclick="document.getElementById('log-btn').style.display = 'none'; document.getElementsByClassName('register-page')[0].style.display = 'flex';">register</button>
         </div>
         {% else %}
         <div class="user-info">
-            <h3>Username: {{ username }}</h3>
             <div class="history-container">
                 {%for row in history[::-1] %}
-                    <div class="history-item">
-                        <h3 style="color:white">{{ row[0] }} {{row[2]}}</h3>
+                    <div class="history-item" style="flex-direction: space-between;">
+                        <p style="color: white;"> {{row[0]}}</p>
+                        <a style="color:white" href="/home?url={{row[1]}}">{{row[2]}}</a>
                     </div>
                 {%endfor%}
             </div>
@@ -88,8 +92,12 @@
 </div>
 
 <div class="option">
-    <button type="button" style="margin-right: 20px; border-radius: 10px" onclick="OpenUserPage()">
-        <!-- <img src="../static/images/user.png" alt="user" /> -->
+    <button type="button" style="margin-right: 20px; border: none; background: none" onclick="OpenUserPage()">
+        {% if username != None %}
+            <img src="../static/images/logged.png" alt="user" style="height: 100%; width: 100%;"/>
+        {% else %}
+            <img src="../static/images/user.png" alt="user" style="height: 100%; width: 100%;"/>
+        {% endif %}
     </button>
     <button id="video-button" onclick="setManualAction('/dl/video', this)">
         <img style="height: 40px; width: auto; margin-right: 2px; margin-left: 10px" src="../static/images/demon1.png"
@@ -97,7 +105,7 @@
         video
     </button>
     <button id="advanced-button" onclick="setManualAction('/extract', this)">
-        advanced
+        <img style="height: 100%; width: 100%; object-fit: contain"src="../static/images/advanced.png" alt="advanced" />
     </button>
     <button id="audio-button" onclick="setManualAction('/dl/audio', this)">
         audio
@@ -166,7 +174,7 @@
     function proceed_submit(){
         youtubeRegex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
         if (youtubeRegex.test(document.getElementById("url").value) == false){
-            window.alert("Please enter a URL!")
+            window.alert("Please enter a URL or search!")
 
         }
         else{

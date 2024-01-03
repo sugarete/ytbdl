@@ -9,9 +9,10 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
     print(username)
+    print(password)
     check_login = check("select * from users where username = ? and password = ?", (username,password))
     if check_login:
-        flash("Password or username is incorrect")
+        print("Password or username is incorrect")
         return redirect(url_for('views.home'))
     else:
         flash("Login successful")
