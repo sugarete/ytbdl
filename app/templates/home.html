@@ -2,7 +2,7 @@
 {%block content%}
 <img class="img-title" src="../static/images/title.png" alt="logo" style="width: auto; height: 175px" />
 <form id="download-form" class="main-page1" method="GET" onkeydown="return event.key != 'Enter'">
-    <button class="paste">
+    <button class="paste" type="button" onclick="pasteFromClipboard()">
         <img src="../static/images/paste.png" alt="link" />
     </button>
     <input type="text" autocomplete="off" name="url" id="url" placeholder="Search or Paste YT's URL here" />
@@ -16,8 +16,8 @@
         <img src="../static/images/search.png" />
     </button>
 
-    <button class="proceed">
-        <img id="proc-btn" src="../static/images/proceed.png" onclick="startLoading()" alt="proceed" />
+    <button class="proceed" id="proceed" onclick="proceed_submit()" type="button">
+        <img src="../static/images/proceed.png" alt="proceed" />
     </button>
 </form>
 
@@ -163,34 +163,21 @@
         }
     }
 
-    function startDownload() {
-        // Disable the button to prevent multiple clicks
-        var procbutton = document.getElementById("proc-btn");
-        procbutton.disabled = true;
-        procbutton.src = "../static/images/loading.gif";
+    function proceed_submit(){
+        youtubeRegex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
+        if (youtubeRegex.test(document.getElementById("url").value) == false){
+            window.alert("Please enter a URL!")
 
-        // Make an Ajax request to the server
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/your-server-endpoint", true);  // Replace with your server endpoint
-        xhr.responseType = "blob";
-    
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                // Create a blob from the response
-                var blob = new Blob([xhr.response], { type: "application/octet-stream" });
-    
-                // Create a link element and trigger a click event to download the file
-                var link = document.createElement("a");
-                link.href = window.URL.createObjectURL(blob);
-                link.download = "filename.txt";  // Replace with the desired filename
-                link.click();
-    
-                // Change the button text back to "Download"
-                downloadBtn.innerHTML = "Download";
-                downloadBtn.disabled = false;
-            }
-        };
-        xhr.send();
+        }
+        else{
+            document.getElementById("download-form").submit();
+        }
+    }
+    function pasteFromClipboard() {
+        navigator.clipboard.readText().then(text => {
+            document.getElementById('url').value = text;
+            console.log('Pasted content: ', text);
+        });
     }
 
 </script>
