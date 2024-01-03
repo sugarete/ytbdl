@@ -50,8 +50,8 @@ def extract():
             if session.get('username') is not None:
                 sql = "insert into history (time, link, username, videoname) values (?, ?, ?, ?)"
                 write_history(sql, (get_now(), url, session.get('username'), video.title))
-                video_id = video.video_id
-            return render_template('test.html', video=video, url = url, format_time=format_time, supported_formats=supported_formats, video_id=video_id)
+            video_id = video.video_id
+            return render_template('detail.html', video=video, url = url, format_time=format_time, supported_formats=supported_formats, video_id=video_id)
         else:
             return "Invalid URL."
 
