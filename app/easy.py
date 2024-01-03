@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, send_file, session
+from flask import Blueprint, render_template, request, send_file, session, redirect, url_for
 from pytube import YouTube
 from .downloads import directory_list, clear_directory
 import os
@@ -26,7 +26,10 @@ def download_easy_video():
             sql = "insert into history (time, link, username, videoname) values (?, ?, ?, ?)"
             write_history(sql, (get_now(), url, session.get('username'), video.title))
         video_path = video.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download(output_path=send_directory)
-        return send_file(video_path, as_attachment=True)
+        redirect_delay = 5000  # 5 seconds delay
+        redirect_url = url_for('views.home')  # Replace with the actual URL
+        redirect_js = f"setTimeout(function(){{window.location.href = '{redirect_url}';}}, {redirect_delay});"
+        return send_file(video_path, as_attachment=True) and redirect(url_for('views.home'))
     else:
         return "Invalid URL."
     
@@ -41,6 +44,6 @@ def download_easy_audio():
             sql = "insert into history (time, link, username, videoname) values (?, ?, ?, ?)"
             write_history(sql, (get_now(), url, session.get('username'), video.title))
         audio_path = video.streams.filter(only_audio=True).first().download(output_path=send_directory)
-        return send_file(audio_path, as_attachment=True)
+        return send_file(audio_path, as_attachment=True) and redirect(url_for('views.home'))
     else:
         return "Invalid URL."

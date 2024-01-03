@@ -183,7 +183,7 @@ body {
     border: 1px solid #303030;
     border-radius: 15px;
     margin-bottom: 10px;
-    width: 30%;
+    width: 40%;
 }
 
 .UserPage-content .login-form,
@@ -231,7 +231,7 @@ body {
     justify-content: center;
     /* Center content horizontally */
     align-items: center;
-    flex-direction: row;
+    flex: 1;
     border: 1px solid rgb(255, 255, 255);   
     cursor: pointer;
     border-radius: 5px;
@@ -260,7 +260,8 @@ body {
     line-height: 20px;
 }
 
-.modal-content div.videos-container {
+.modal-content div.videos-container,
+.UserPage-content div.history-container {
     background-color: #000000;
     border: 1px solid #303030;
     border-radius: 15px;
@@ -288,9 +289,8 @@ body {
     cursor: pointer;
 }
 
-.video-item {
-    width: 100%;
-    height: auto;
+.video-item,
+.history-item {
     margin-bottom: 10px;
     border: solid 1px rgb(42, 42, 42);
     border-radius: 10px;

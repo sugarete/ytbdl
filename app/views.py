@@ -35,14 +35,6 @@ def home():
     print(username)
     return render_template("home.html", username=username, history = get_history("select time, link, videoname from history where username = ?", (username,)))
 
-@views.route('/login')
-def login():
-    return render_template("login.html")
-
-@views.route('/register')
-def register():
-    return render_template("register.html")
-
 
 # extract video info
 @views.route('/extract', methods=['POST', 'GET'])
@@ -69,13 +61,15 @@ def search():
     if (is_url_valid(keyword)):
         return render_template('home.html', url = keyword)
     else:
+        username = session.get('username')
         videos = search_youtube(keyword)
-        return render_template('home.html', videos=videos, show_results=True)
+        return render_template('home.html', videos=videos, show_results=True, username = username, history = get_history("select time, link, videoname from history where username = ?", (username,)))
 
 @views.route('/home')
 def home_page():
     url = request.args.get('url')
-    return render_template('home.html', url=url)
+    username = session.get('username')
+    return render_template('home.html', url=url, username=username, history = get_history("select time, link, videoname from history where username = ?", (username,)))
 
 def search_youtube(keyword):
     videos = []

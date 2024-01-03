@@ -17,7 +17,7 @@
     </button>
 
     <button class="proceed">
-        <img src="../static/images/proceed.png" alt="proceed" />
+        <img id="proc-btn" src="../static/images/proceed.png" onclick="startLoading()" alt="proceed" />
     </button>
 </form>
 
@@ -29,7 +29,8 @@
         <div class="videos-container">
             {% for video in videos[0:5] %}
             <div class="video-item" onclick="redirectToHome('{{ video.url }}')">
-                <img syle="object-fit: contain; width: 100%; height: 100%;"class="thumbnail" src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                <img style="object-fit: contain; width: 100%; height: 100%;" class="thumbnail"
+                    src="{{ video.thumbnail }}" alt="{{ video.title }}">
                 <a href="/home?url={{ video.url }}">{{ video.title }}</a>
             </div>
             {% endfor %}
@@ -47,31 +48,39 @@
         {% if username == None %}
         <div class="login-page" style="display: none;">
             <form class="login-form" action="/auth/login" method="POST">
-                <input type="text" name="username" placeholder="username" />
-                <input type="password" name="password" placeholder="password" />
+                <input type="text" name="username" placeholder="username" required/>
+                <input type="password" name="password" placeholder="password" required/>
                 <button type="submit">login</button>
-                <button type="button" onclick="document.getElementById('log-btn').style.display = 'block'; document.getElementsByClassName('login-page')[0].style.display = 'none';">cancel</button>
-            </form> 
+                <button type="button"
+                    onclick="document.getElementById('log-btn').style.display = 'flex'; document.getElementsByClassName('login-page')[0].style.display = 'none';">cancel</button>
+            </form>
         </div>
         <div class="register-page" style="display: none;">
             <form class="register-form" action="/auth/register" method="POST">
-                <input type="text" name="username" placeholder="username" />
-                <input type="password" name="password" placeholder="password" />
-                <input type="password" name="confirm_password" placeholder="confirm password" />
+                <input type="text" name="username" placeholder="username" required/>
+                <input type="password" name="password" placeholder="password" required/>
+                <input type="password" name="confirm_password" placeholder="confirm password" required/>
                 <button type="submit">register</button>
-                <button type="button" onclick="document.getElementById('log-btn').style.display = 'block'; document.getElementsByClassName('register-page')[0].style.display = 'none';">cancel</button>
+                <button type="button"
+                    onclick="document.getElementById('log-btn').style.display = 'flex'; document.getElementsByClassName('register-page')[0].style.display = 'none';">cancel</button>
             </form>
         </div>
         <div class="login-register" id="log-btn">
-            <button onclick="document.getElementById('log-btn').style.display = 'none'; document.getElementsByClassName('login-page')[0].style.display = 'block';">login</button>
-            <button onclick="document.getElementById('log-btn').style.display = 'none'; document.getElementsByClassName('register-page')[0].style.display = 'block';">register</button>
+            <button
+                onclick="document.getElementById('log-btn').style.display = 'none'; document.getElementsByClassName('login-page')[0].style.display = 'block';">login</button>
+            <button
+                onclick="document.getElementById('log-btn').style.display = 'none'; document.getElementsByClassName('register-page')[0].style.display = 'block';">register</button>
         </div>
         {% else %}
         <div class="user-info">
             <h3>Username: {{ username }}</h3>
-            {%for row in history%}
-            <h3>Downloaded: {{ row }}</h3>
-            {%endfor%}
+            <div class="history-container">
+                {%for row in history[::-1] %}
+                    <div class="history-item">
+                        <h3 style="color:white">{{ row[0] }} {{row[2]}}</h3>
+                    </div>
+                {%endfor%}
+            </div>
             <a href="/auth/logout">logout</a>
         </div>
         {% endif %}
@@ -79,11 +88,12 @@
 </div>
 
 <div class="option">
-    <button type="button" style="margin-right: 20px; border-radius: 10px" onclick="OpenUserPage()"> 
-        <img src="../static/images/user.png" alt="user" />
+    <button type="button" style="margin-right: 20px; border-radius: 10px" onclick="OpenUserPage()">
+        <!-- <img src="../static/images/user.png" alt="user" /> -->
     </button>
     <button id="video-button" onclick="setManualAction('/dl/video', this)">
-        <img style="height: 40px; width: auto; margin-right: 2px; margin-left: 10px" src="../static/images/demon1.png" alt="video" />
+        <img style="height: 40px; width: auto; margin-right: 2px; margin-left: 10px" src="../static/images/demon1.png"
+            alt="video" />
         video
     </button>
     <button id="advanced-button" onclick="setManualAction('/extract', this)">
@@ -95,7 +105,7 @@
     </button>
 </div>
 
-
+{{msg}}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var urlParams = new URLSearchParams(window.location.search);
@@ -152,5 +162,36 @@
             x.style.display = "none";
         }
     }
+
+    function startDownload() {
+        // Disable the button to prevent multiple clicks
+        var procbutton = document.getElementById("proc-btn");
+        procbutton.disabled = true;
+        procbutton.src = "../static/images/loading.gif";
+
+        // Make an Ajax request to the server
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/your-server-endpoint", true);  // Replace with your server endpoint
+        xhr.responseType = "blob";
+    
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // Create a blob from the response
+                var blob = new Blob([xhr.response], { type: "application/octet-stream" });
+    
+                // Create a link element and trigger a click event to download the file
+                var link = document.createElement("a");
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "filename.txt";  // Replace with the desired filename
+                link.click();
+    
+                // Change the button text back to "Download"
+                downloadBtn.innerHTML = "Download";
+                downloadBtn.disabled = false;
+            }
+        };
+        xhr.send();
+    }
+
 </script>
 {% endblock %}
