@@ -29,7 +29,7 @@ def download_easy_video():
         redirect_delay = 5000  # 5 seconds delay
         redirect_url = url_for('views.home')  # Replace with the actual URL
         redirect_js = f"setTimeout(function(){{window.location.href = '{redirect_url}';}}, {redirect_delay});"
-        return send_file(video_path, as_attachment=True) and redirect(url_for('views.home'))
+        return send_file(video_path, as_attachment=True) 
     else:
         return "Invalid URL."
     
@@ -44,6 +44,6 @@ def download_easy_audio():
             sql = "insert into history (time, link, username, videoname) values (?, ?, ?, ?)"
             write_history(sql, (get_now(), url, session.get('username'), video.title))
         audio_path = video.streams.filter(only_audio=True).first().download(output_path=send_directory)
-        return send_file(audio_path, as_attachment=True) and redirect(url_for('views.home'))
+        return send_file(audio_path, as_attachment=True) 
     else:
         return "Invalid URL."
