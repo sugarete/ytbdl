@@ -1,20 +1,20 @@
 Project Based Learning 3 Repo: Youtube Downloader
 -----
 Requirements: C/C++/.NET/Py
-- [ ] Connect to Youtube
-- [ ] Search Query Processing (Using Google Data API) or (Youtube Data API)
-- [ ] Examine HTML to get HTML video's link (OpenSource)
+- [x] Connect to Youtube
+- [x] Search Query Processing (Using Google Data API) or (Youtube Data API)
+- [x] Examine HTML to get HTML video's link (OpenSource)
 - [x] Download FLV file - Extract Sound
 - [ ] Networking Interface and Download 
 -----
 Plan: 
-- [ ] Using Youtube Data API to get video's link and search query
+- [x] Using Youtube Data API to get video's link and search query
 - [x] Change the method: download to server and return file to client
 - [x] Create Quality Selection Menu (1080p, 720p, 480p, 360p, 240p, 144p)
 - [x] Create Extract Sound Menu (Yes/No)
 - [x] Create Video format Menu (mp4, flv, avi, mkv, webm)
-- [ ] Create edit video menu (Cut, Merge, Add Sound, Add Subtitle)
-- [ ] Store download history
+- [x] Create edit video menu (Cut, Merge, Add Sound, Add Subtitle) (1/4 DONE)
+- [x] Store download history
 -----
 Guide to use Github:  
 
@@ -34,8 +34,8 @@ Thay đổi cách thức hoạt động của server:
 Tải video về server và send file về client, mục đích tải về server là để có thể xử lý video (cắt, ghép, thay đổi định dạng)
 - [x] Cho phép lựa chọn chất lượng video tải về (FLV) !(tuy nhiên vẫn còn gặp nhiều hạn chế khi chọn các chất lượng không đi kèm với âm thanh)  
 - [x] Cho phép lựa chọn tải audio riêng MP3  - Pytube
-- [ ] Search Query Processing - Youtube Data API hoặc Pytube
-- [ ] Lưu lịch sử tải về 
-- [ ] Cắt video tại thời điểm được chỉ định (Làm UI cho phần lựa chọn) - Pytube hoặc FFmpeg 
+- [x] Search Query Processing - Youtube Data API hoặc Pytube
+- [x] Lưu lịch sử tải về 
+- [x] Cắt video tại thời điểm được chỉ định (Làm UI cho phần lựa chọn) - Pytube hoặc FFmpeg 
 - [x] Cho phép lựa chọn định dạng video tải về (mp4, flv, avi,..)  - FFmpeg
 
