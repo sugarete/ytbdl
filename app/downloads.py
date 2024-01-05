@@ -33,7 +33,7 @@ if not os.path.exists(send_directory):
     os.makedirs(send_directory)
 #end of create directories 
 
-directory_list = [download_directory, send_directory]
+directory_list = [send_directory, download_video_directory, download_audio_directory, merge_directory]
 def clear_directory(directory):
     try:
         shutil.rmtree(directory)
@@ -96,6 +96,7 @@ def download_video():
                         converted_video_path = convert_format(out_video_path, selected_format)
                         return send_file(converted_video_path, as_attachment=True)
                     else:
+                        print("OK")
                         full_video_path = merge_video(out_video_path, out_audio_path, os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path)[:-4] + '.mp4'))
                         converted_full_video_path = convert_format(full_video_path, selected_format)
                         return send_file(converted_full_video_path, as_attachment=True)
@@ -110,6 +111,7 @@ def download_video():
                         converted_video_path = convert_format(video_path, selected_format)
                         return send_file(converted_video_path, as_attachment=True)
                     else:
+                        print("OK")
                         full_video_path = merge_video(video_path, audio_path, os.path.join(os.getcwd(), merge_directory, os.path.basename(video_path)[:-4] + '.mp4'))
                         converted_full_video_path = convert_format(full_video_path, selected_format)
                         return send_file(converted_full_video_path, as_attachment=True)
