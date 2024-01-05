@@ -33,8 +33,7 @@ if not os.path.exists(send_directory):
     os.makedirs(send_directory)
 #end of create directories 
 
-directory_list = [merge_directory, download_audio_directory, download_video_directory, send_directory]
-
+directory_list = [download_directory, send_directory]
 def clear_directory(directory):
     try:
         shutil.rmtree(directory)
